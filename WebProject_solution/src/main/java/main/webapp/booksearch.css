@@ -1,0 +1,229 @@
+@font-face {
+    font-family: 'NanumBarunGothic';
+    src: url('./fonts/NanumBarunGothicLight.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SF_HambakSnow';
+    src: url('./fonts/SF함박눈TTF.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* General Styles */
+body {
+    font-family: 'NanumBarunGothic', sans-serif;
+    background-color: #ffffff;
+    color: #4a4a4a;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* 스크롤바와 여백 숨김 */
+    width: 100vw; /* 전체 너비 차지 */
+    height: 100vh; /* 전체 높이 차지 */
+}
+
+/* Sidebar */
+.sidebar {
+    width: 100px;
+    background-color: #FEF9EB;
+    position: fixed;
+    height: 100%;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sidebar::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 10%;
+    height: 70%;
+    width: 2px;
+    background-color: #a4a4a4;
+}
+
+.logo {
+    width: 35px;
+    height: 40px;
+    margin-bottom: 10px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.sidebar ul li {
+    padding: 15px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 14px;
+    color: #4a4a4a;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar ul li:hover {
+    background-color: #e8e4d8;
+}
+
+.sidebar ul li img {
+    width: 24px;
+    margin-bottom: 5px;
+}
+
+/* Main Wrapper */
+.main-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-left: 100px; /* 사이드바의 너비 만큼 여백 */
+    padding: 20px 50px;
+    width: calc(100% - 100px); /* 사이드바를 제외한 너비 */
+    height: 100vh; /* 전체 높이 차지 */
+    box-sizing: border-box;
+    background-color: #ffffff;
+    overflow-y: auto; /* 내용이 많을 때 세로 스크롤 허용 */
+}
+
+/* User Account Welcome Message at the top-right */
+.account {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.account img {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+}
+
+/* Filters and Content Area */
+.content-area {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Filter Button and Dropdown Styles */
+.filters {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.filter-dropdown {
+    appearance: none;
+    background-color: #f1e5c8;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    color: #4a4a4a;
+    cursor: pointer;
+    font-family: 'NanumBarunGothic', sans-serif;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    text-align-last: center;
+    position: relative;
+}
+
+.filter-dropdown option {
+    text-align: left;
+}
+
+.filter-dropdown::after {
+    content: '▼';
+    font-size: 12px;
+    color: #4a4a4a;
+    position: absolute;
+    right: 15px;
+    pointer-events: none;
+}
+
+.filter-input {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    padding: 10px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+    color: #4a4a4a;
+    font-family: 'NanumBarunGothic', sans-serif;
+    outline: none;
+    width: 120px;
+}
+
+.filter-input::placeholder {
+    color: #a9a9a9;
+}
+
+.search-button {
+    background-color: #f1e5c8;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: 'NanumBarunGothic', sans-serif;
+    transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+    background-color: #e1d4b3;
+}
+
+/* Book Grid Styles */
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); /* 6 columns */
+    gap: 20px;
+}
+
+/* Book Card Styles */
+.book-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    text-align: left;
+    padding: 15px;
+    transition: transform 0.3s ease;
+    border: 1px solid #ddd;
+}
+
+.book-card:hover {
+    transform: translateY(-5px);
+}
+
+.book-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.book-info {
+    margin-top: 10px;
+}
+
+.book-info h3 {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin: 5px 0;
+}
+
+.book-info p {
+    font-size: 14px;
+    color: #777;
+    margin: 3px 0;
+}

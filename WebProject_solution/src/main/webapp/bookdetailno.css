@@ -1,0 +1,358 @@
+@font-face {
+    font-family: 'NanumBarunGothic';
+    src: url('./fonts/NanumBarunGothicLight.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SF_HambakSnow';
+    src: url('./fonts/SF함박눈TTF.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* General Styles */
+body {
+    font-family: 'NanumBarunGothic', sans-serif; /* NanumBarunGothic 폰트 기본 적용 */
+    background-color: #FEF9EB;
+    color: #4a4a4a;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    overflow-y: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 100px;
+    background-color: #FEF9EB;
+    position: fixed;
+    height: 100%;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sidebar::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 10%;
+    height: 70%;
+    width: 2px;
+    background-color: #a4a4a4;
+}
+
+.logo {
+    width: 35px;
+    height: 40px;
+    margin-bottom: 10px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.sidebar ul li {
+    padding: 15px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 14px;
+    color: #4a4a4a;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar ul li:hover {
+    background-color: #e8e4d8;
+}
+
+.sidebar ul li img {
+    width: 24px;
+    margin-bottom: 5px;
+}
+
+/* Wrapper to hold main content and right sidebar side by side */
+.main-wrapper {
+    display: flex;
+    margin-left: 100px;
+    padding-left: 50px;
+    padding-top: 20px;
+    width: calc(100% - 170px);
+    box-sizing: border-box;
+    background-color: #FEF9EB;
+}
+
+.main-content {
+    flex: 1;
+    padding-right: 50px;
+}
+
+.main-content img {
+    width: 300px;
+    height: 200px;
+}
+
+/* Header */
+.header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #FEF9EB;
+}
+
+.header img {
+    width: 30px;
+}
+
+.header input[type="text"] {
+    padding: 10px 15px;
+    width: 400px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    font-size: 14px;
+    outline: none;
+    background-color: #FEF9EB;
+}
+
+/* Title */
+h1.title-special {
+    font-size: 36px;
+    font-weight: bold;
+    color: #4a4a4a;
+}
+
+.main-content h1 {
+    margin-bottom: 2px; /* 위아래 간격 조정 */
+    line-height: 1.2; /* 줄 간격 축소 */
+}
+
+.main-content h2 {
+    font-size: 20px; /* 제목 글씨 크기 축소 */
+    font-weight: bold; 
+    margin-bottom: 5px; /* 제목과 내용 사이 간격 */
+}
+
+.main-content p {
+    font-size: 16px; /* 내용 글씨 크기 축소 */
+    line-height: 1.3; /* 줄 간격 축소 */
+    margin: 3px 0; /* 각 줄 간격 */
+}
+
+
+/* Style for "사용자조회" button */
+.main-content a.button-link {
+    display: inline-block;
+    padding: 4px 10px;
+    background-color: #645A5A; /* 버튼 배경색 */
+    color: white;
+    text-decoration: none;
+    font-size: 12px; /* 글자 크기 */
+    border-radius: 5px;
+    margin-left: 5px; /* 텍스트와 버튼 사이 간격 */
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.main-content a.button-link:hover {
+    background-color: #504A4A; /* 호버 시 배경색 변경 */
+}
+
+
+/* Book Images Section */
+.book-images {
+    display: flex;
+    justify-content: left; /* 이미지 간 간격 균등 분배 */
+    gap: 5px; /* 이미지 간격 조정 */
+    margin-top: 25px;
+    margin-bottom: 30px;
+}
+
+.book-images img {
+    width: 30%; /* 각 이미지가 한 줄에 맞게 비율 설정 */
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Book Section */
+.book-section {
+    margin-top: 30px;
+    width: 800px;
+}
+
+.book-section h2.new-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #4a4a4a;
+    text-align: left; /* 왼쪽 정렬 */
+}
+
+
+.sidebar-right {
+    width: 600px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.sidebar-right .account {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.sidebar-right .account img {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+}
+
+
+
+/* Center alignment for my-book */
+.my-book {
+    width: 80%;
+    margin: 0 auto; /* Center align horizontally */
+    padding: 20px;
+    background-color: #ffffff;
+}
+
+
+.my-book h2{
+	font-size: 24px;
+    font-weight: bold;
+    color: #4a4a4a;
+	margin-top:40px
+}
+
+.my-book h2,
+.my-book p {
+    text-align: left;
+    margin: 10px 0;
+}
+
+.my-book img{
+	width: 340px;
+  
+}
+
+.my-book .label {
+    font-weight: bold;
+    margin-right: 5px;
+    line-height: 1.6;
+    text-align: center;
+    margin: 228px 0px;
+}
+
+.my-book .value {
+    font-weight: normal;
+    line-height: 1.6;
+}
+
+.book-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.chat-button {
+    display: inline-block;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    padding: 10px 25px; /* 패딩 조정 */
+    background-color: #645A5A; /* 버튼 배경색 */
+    color: white;
+    text-decoration: none;
+    border-radius: 30px; /* 더 둥글게 설정 */
+    font-size: 16px; /* 폰트 크기 조정 */
+    font-weight: bold;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2); /* 그림자 수정 */
+    border: none;
+    cursor: pointer;
+    transition: transform 0.1s ease; /* 클릭 시 애니메이션 */
+    font-family: 'NanumBarunGothic', sans-serif; /* NanumBarunGothic 폰트 기본 적용 */
+}
+
+.chat-button:hover {
+    background-color: #504A4A; /* 호버 시 색상 변경 */
+}
+
+.chat-button:active {
+    transform: scale(0.95); /* 클릭 시 살짝 줄어드는 효과 */
+}
+
+.custom-hr {
+    border: none;
+    border-top: 1px solid #ccc; /* 줄 색상 설정 */
+    margin-top: 20px; /* 위아래 간격 */
+    width: 100%; /* 줄 길이 */
+}
+
+/* Popup Styles */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px); /* 배경 블러 효과 */
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.popup-content {
+    background: #FEF9EB;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 300px;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.popup-content img {
+    width: 80px;
+    height: 80px;
+}
+
+.popup-content p {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.stars {
+    font-size: 24px;
+    color: gold;
+    margin: 10px 0;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    text-decoration: none;
+    font-size: 24px;
+    color: #333;
+}
+
+/* Show popup when target is selected */
+#popup:target {
+    display: flex;
+}
+

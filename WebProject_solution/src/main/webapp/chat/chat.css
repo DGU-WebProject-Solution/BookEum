@@ -1,0 +1,129 @@
+@font-face {
+    font-family: 'NanumBarunGothic';
+    src: url('../fonts/NanumBarunGothicLight.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SF_HambakSnow';
+    src: url('../fonts/SF함박눈TTF.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* General Styles */
+body {
+    font-family: 'NanumBarunGothic', sans-serif; /* NanumBarunGothic 폰트 기본 적용 */
+    background-color: #FEF9EB;
+    color: #4a4a4a;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    overflow-y: hidden;
+}
+
+/* Specific class for SF_HambakSnow font */
+.title-special,
+.todaybook,
+.genre-title,
+.new-title {
+    font-family: 'SF_HambakSnow', sans-serif;
+    text-align: left;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 100px;
+    background-color: #FEF9EB;
+    position: fixed;
+    height: 100%;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sidebar::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 10%;
+    height: 70%;
+    width: 2px;
+    background-color: #a4a4a4;
+}
+
+.logo {
+    width: 35px;
+    height: 40px;
+    margin-bottom: 10px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.sidebar ul li {
+    padding: 15px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 14px;
+    color: #4a4a4a;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar ul li:hover {
+    background-color: #e8e4d8;
+}
+
+.sidebar ul li img {
+    width: 24px;
+    margin-bottom: 5px;
+}
+
+/* Wrapper to hold main content and right sidebar side by side */
+.main-wrapper {
+    display: flex;
+    margin-left: 100px;
+    padding-left: 50px;
+    padding-top: 20px;
+    width: calc(100% - 170px);
+    box-sizing: border-box;
+    background-color: #FEF9EB;
+}
+
+.main-content {
+    flex: 1;
+    padding-right: 20px;
+}
+
+/* Right Sidebar */
+.sidebar-right {
+    width: 600px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.sidebar-right .account {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.sidebar-right .account img {
+	cursor: pointer;
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+}

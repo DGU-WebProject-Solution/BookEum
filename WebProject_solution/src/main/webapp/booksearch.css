@@ -9,7 +9,7 @@
     font-family: 'SF_HambakSnow';
     src: url('./fonts/SF함박눈TTF.ttf') format('truetype');
     font-weight: normal;
-    font-style: normal;
+    font-style: normal; 
 }
 
 /* General Styles */

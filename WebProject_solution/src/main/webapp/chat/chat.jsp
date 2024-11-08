@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Book Exchange</title>
-    <link rel="stylesheet" type="text/css" href="chatList.css">
+    <link rel="stylesheet" type="text/css" href="chat.css">
 </head>
 <body>
     <!-- Sidebar -->

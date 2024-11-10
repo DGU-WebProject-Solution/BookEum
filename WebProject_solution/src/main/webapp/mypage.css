@@ -1,0 +1,217 @@
+@charset "UTF-8";
+
+.title-special {
+    text-align: center;
+    font-family: 'SF_HambakSnow', sans-serif;
+}
+
+@font-face {
+    font-family: 'NanumBarunGothic';
+    src: url('./fonts/NanumBarunGothicLight.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SF_HambakSnow';
+    src: url('./fonts/SF함박눈TTF.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+	font-family: 'NanumBarunGothic', sans-serif; /* NanumBarunGothic 폰트 기본 적용 */
+    background-color: #FEF9EB;
+    color: #4a4a4a;
+    display: flex;
+    margin: 0;
+    padding: 0;
+	height: 100vh;
+	overflow-y: auto;
+	text-align: center;
+}
+
+/* Sidebar */
+/* Sidebar */
+.sidebar {
+    width: 100px;
+    background-color: #FEF9EB;
+    position: fixed;
+    height: 100%;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sidebar::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 10%;
+    height: 70%;
+    width: 2px;
+    background-color: #a4a4a4;
+}
+
+.logo {
+    width: 35px;
+    height: 40px;
+    margin-bottom: 10px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.sidebar ul li {
+    padding: 15px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 14px;
+    color: #4a4a4a;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar ul li:hover {
+    background-color: #e8e4d8;
+}
+
+.sidebar ul li img {
+    width: 24px;
+    margin-bottom: 5px;
+}
+
+.container {
+    display: inline-flex;
+    gap: 20px;
+    position: relative;
+}
+
+/* profile & button */
+.profile-section {
+	display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-left: 120px;
+    margin-top: 50px;
+    width: 250px;
+    flex-direction: column;
+}
+
+.profile-img {
+    margin-top: 50px;
+}
+
+.profile-image {
+    width: 80px;
+    height: 80px;
+    margin-top: 30px;
+    padding-top: 10px;
+    background-color: #ccc;
+    border-radius: 50%;
+}
+
+.profile-image img {
+	width: 70px;
+	height: 70px;
+    padding-top: 30px;
+    opacity: 0.5;
+}
+
+.profile-name {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 10px 0 5px;
+}
+
+.profile-section button {
+	width: 150px;
+	height: 40px;
+	background-color: #645A5A;
+	color: #FFFFFF;
+	border-radius: 40px;
+	border-color: #645A5A;
+	margin-top: 3px;
+	padding-top: 5px;
+	font-size: 18px;
+	cursor: pointer;
+}
+
+.rating-star {
+    font-size: 24px;
+}
+
+.rating-font {
+	font-size: 13px;
+	margin-bottom: 7px;
+}
+
+
+.record-wrapper {
+	margin-top: 150px;
+	margin-left: 30px;
+	text-align: center;
+}
+
+/* exchange record box */
+.tabs {
+    display: flex;
+    width: 625px;
+    height: 50px;
+    font-size: 22px;
+}
+
+.tab {
+    padding: 15px 10px;
+    background-color: #d1c4b2;
+    margin-right: 5px;
+    cursor: pointer;
+    width: 312px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.tab.active {
+    background-color: #645A5A;
+    color: white;
+}
+
+.book-box {
+	box-sizing: border-box;
+	width: 620px;
+	height: auto;
+	background: #FAF8F4;
+	border: 5px solid #645A5A;
+	border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    overflow-y: auto;
+}
+
+.book-list {
+    display: flex;
+    gap: 20px;
+    padding-top: 20px;
+}
+
+.book-item {
+	width: calc(33.333% - 20px);
+    text-align: center;
+}
+
+.book-item img {
+    width: 120px;
+    height: 180px;
+    border-radius: 5px;
+}
+
+.book-item p {
+    margin-top: 10px;
+    font-size: 16px;
+}

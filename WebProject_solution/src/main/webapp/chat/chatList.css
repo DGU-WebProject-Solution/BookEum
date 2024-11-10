@@ -114,6 +114,17 @@ body {
     overflow-y: auto;
 }
 
+.sidebar-right::-webkit-scrollbar{
+	width: 8px;
+}
+.sidebar-right::-webkit-scrollbar-thumb{
+	border-radius: 4px;
+	background: #645A5A;
+}
+.sidebar-right::-webkit-scrollbar-track{
+	background: transparent;
+}
+
 .sidebar-right .account {
     display: flex;
     align-items: center;
@@ -126,4 +137,72 @@ body {
     width: 24px;
     height: 24px;
     margin-right: 8px;
+}
+
+/* 채팅방 목록 */
+.chat-list {
+    background-color:white;
+}
+
+.chat-message {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 12px;
+    background-color: #FEF9EB80;
+    margin-top: 8px;
+    border-radius: 8px;
+    box-shadow: 2px 2px 4px #00000020;
+}
+
+.profile-image-container {
+    position: relative;
+    width: 60px;
+    height: 60px;
+}
+
+.profile-circle {
+    width: 48px;
+    height: 48px;
+    background-color: #d9d9d9;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 8px;
+    color: black;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+.book-rectangle {
+    width: 40px;
+    height: 48px;
+    background-color: #bbb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 8px;
+    color: #333;
+    position: absolute;
+    top: 12px;
+    left: 20px;
+    z-index: 1;
+    border-radius: 2px;
+    
+}
+.message-details {
+    display: flex;
+    flex-direction: column;
+    color: black;
+}
+
+.message-time {
+    font-size: 12px;
+}
+
+.message-text {
+    font-size: 16px;
 }

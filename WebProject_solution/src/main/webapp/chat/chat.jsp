@@ -82,6 +82,7 @@
 </head>
 <body>
     <!-- Sidebar -->
+    <%String user = "이수민"; %>
     <div class="sidebar">
         <img src="../images/logo.png" alt="Logo" class="logo"><span>책이음</span>
         
@@ -97,7 +98,7 @@
         <!-- Main Content -->
         <div class="main-content">
 		    <div class="chat-header">
-        		<span class="chat-title">이수민</span>
+        		<span class="chat-title"><%= user %></span>
 		        <div class="chat-buttons">
 		            <button class="chat-btn open-sidebar" onclick="toggleSidebar()">채팅 목록 보기</button>
         		    <button class="chat-btn" onClick="openModal()">예약하기</button>
@@ -167,7 +168,7 @@
 		<!-- 예약하기 -->
 		<div class="modal-overlay" id="modalOverlay">
     		<div class="reservation-modal">
-        		<h2>이수민 님과 예약</h2>
+        		<h2><%= user %> 님과 예약</h2>
 	        	<div class="modal-content">
     	        	<div class="modal-row">
         	        	<span>날짜</span>
@@ -188,7 +189,7 @@
 	<!-- 교환 완료 -->
 		<div class="review-modal-overlay" id="reviewModalOverlay">
 		    <div class="review-modal">
-    		    <h2>교환을 완료하시겠습니까?<br>이수민 님에 대한 후기를 남겨주세요.</h2>
+    		    <h2>교환을 완료하시겠습니까?<br><%= user %> 님에 대한 후기를 남겨주세요.</h2>
         		<div class="star-rating">
             		<span class="star" onclick="setRating(1)">★</span>
 		            <span class="star" onclick="setRating(2)">★</span>

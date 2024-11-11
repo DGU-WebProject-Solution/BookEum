@@ -5,6 +5,20 @@
     <meta charset="UTF-8">
     <title>Book Exchange</title>
     <link rel="stylesheet" type="text/css" href="./chatList.css">
+    <script type="text/javascript">
+    function toggleSidebar() {
+		const sidebar = document.querySelector('.sidebar-right');
+		sidebar.classList.toggle('show');
+	}
+	// 사이드바 외부 클릭 감지
+	document.addEventListener('click', function(event) {
+	    const sidebar = document.querySelector('.sidebar-right');
+	    const sidebarButton = document.querySelector('.chat-btn'); // 사이드바 열기 버튼
+	    if (sidebar.classList.contains('show') && !sidebar.contains(event.target) && event.target !== sidebarButton) {
+	        sidebar.classList.remove('show'); // 사이드바 닫기
+	    }
+	});
+	</script>
 </head>
 <body>
     <!-- Sidebar -->
@@ -21,16 +35,24 @@
     <!-- Main Wrapper to hold content and right sidebar -->
     <div class="main-wrapper">
         <!-- Main Content -->
-        <div class="main-content"></div>
+        <div class="main-content">
+        	<button class="chat-btn open-sidebar" onclick="toggleSidebar()">채팅 목록 보기</button>
+        	<div class="select-inform-text">채팅방을 선택하시오.</div>
+        </div>
     </div>
 
     <!-- Right Sidebar -->
     <div class="sidebar-right">
     
     	<!-- 로고와 CHAT 문구 들어가야 함 -->
-        <div class="account">
-            <img src="../images/account.png" alt="Account Icon"> 솔루션
-        </div>
+        <div class="sidebar-right-header">
+    	    <div class="header-logo">
+        	    <img src="../images/logo.png" alt="Logo"> CHAT
+        	</div>   
+	    	<div class="account">
+        	    <img src="../images/account.png" alt="Account Icon" class="mypage-icon"> 솔루션
+        	</div>     	
+    	</div>
         
         <!-- Chat List Section -->
         <div class="chat-list">

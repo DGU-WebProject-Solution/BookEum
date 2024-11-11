@@ -239,12 +239,14 @@ body {
 .sidebar-right {
     width: 600px;
     background-color: #ffffff;
-    padding: 12px 20px;
+    padding: 20px;
     border-radius: 10px;
     height: 100vh;
     overflow-y: auto;
+    transition: width 0.5s ease, opacity 0.5s ease;
+    opacity: 1;
+    margin-bottom:20px;
 }
-
 .sidebar-right::-webkit-scrollbar{
 	width: 8px;
 }
@@ -353,6 +355,7 @@ body {
     display: flex;
     flex-direction: column;
     color: black;
+    padding-bottom:4px;
 }
 
 .message-time {
@@ -361,14 +364,6 @@ body {
 
 .message-text {
     font-size: 16px;
-}
-
-/* 기본 스타일 설정 */
-.sidebar-right {
-    width: 600px;
-    transition: width 0.5s ease, opacity 0.5s ease;
-    opacity: 1;
-    margin-bottom:20px;
 }
 
 /* 작은 화면에서 right-sidebar 숨기기 */

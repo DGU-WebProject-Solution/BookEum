@@ -23,15 +23,6 @@ body {
     overflow-y: hidden;
 }
 
-/* Specific class for SF_HambakSnow font */
-.title-special,
-.todaybook,
-.genre-title,
-.new-title {
-    font-family: 'SF_HambakSnow', sans-serif;
-    text-align: left;
-}
-
 /* Sidebar */
 .sidebar {
     width: 100px;
@@ -104,6 +95,12 @@ body {
     padding-right: 20px;
 }
 
+.select-inform-text{
+	display: flex;
+	justify-content: center;
+	line-height: calc(100vh - 100px);
+}
+
 /* Right Sidebar */
 .sidebar-right {
     width: 600px;
@@ -112,6 +109,9 @@ body {
     border-radius: 10px;
     height: 100vh;
     overflow-y: auto;
+    transition: width 0.5s ease, opacity 0.5s ease;
+    opacity: 1;
+    margin-bottom:20px;
 }
 
 .sidebar-right::-webkit-scrollbar{
@@ -125,14 +125,33 @@ body {
 	background: transparent;
 }
 
-.sidebar-right .account {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    margin-bottom: 20px;
+.sidebar-right-header {
+	display: flex;
+	width: 100%;
+	align-items: center;
+	height: 40px;
+	z-index: 10;
+}
+.header-logo {
+	display: flex;
+	align-items: center;
+	position: absolute;
+}
+	
+.header-logo img{
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
 }
 
-.sidebar-right .account img {
+.account {
+    display: flex;
+    align-items: center;
+    position : absolute;
+    right: 28px;
+}
+
+.account img {
 	cursor: pointer;
     width: 24px;
     height: 24px;
@@ -142,9 +161,11 @@ body {
 /* 채팅방 목록 */
 .chat-list {
     background-color:white;
+    margin-bottom: 32px;
 }
 
 .chat-message {
+	cursor: pointer;
     display: flex;
     align-items: center;
     gap: 24px;
@@ -153,6 +174,10 @@ body {
     margin-top: 8px;
     border-radius: 8px;
     box-shadow: 2px 2px 4px #00000020;
+}
+.chat-message:active{
+	transform: scale(0.96);
+	transition: transform 0.1s ease;
 }
 
 .profile-image-container {
@@ -206,3 +231,52 @@ body {
 .message-text {
     font-size: 16px;
 }
+
+.chat-btn {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 15px;
+    background-color: #645A5A;
+    color: #ffffff;
+    cursor: pointer;
+}
+.open-sidebar {
+    display: none;
+}
+.open-sidebar:active {
+	transform: scale(0.96);
+	transition: transform 0.1s ease;
+}
+
+/* 작은 화면에서 right-sidebar 숨기기 */
+@media (max-width: 1080px) {
+	.open-sidebar {
+		display: inline-block;
+	}
+    .sidebar-right {
+        width: 0;
+        opacity: 0;
+        overflow: hidden;
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100%;
+        z-index: 10; /* 화면 위로 나오게 설정 */
+        overflow-y: auto;
+    }
+    
+    /* main-wrapper가 전체 너비를 차지하도록 조정 */
+    .main-wrapper {
+        width: calc(100% - 100px);
+        padding-left: 20px;
+    }
+
+    /* sidebar-right가 열릴 때의 스타일 */
+    .sidebar-right.show {
+        width: 300px; /* 원하는 너비 설정 */
+        opacity: 1;
+        z-index: 120;
+    }
+
+}
+

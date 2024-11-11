@@ -23,15 +23,6 @@ body {
     overflow-y: hidden;
 }
 
-/* Specific class for SF_HambakSnow font */
-.title-special,
-.todaybook,
-.genre-title,
-.new-title {
-    font-family: 'SF_HambakSnow', sans-serif;
-    text-align: left;
-}
-
 /* Sidebar */
 .sidebar {
     width: 100px;
@@ -93,7 +84,7 @@ body {
     display: flex;
     margin-left: 100px;
     padding-left: 50px;
-    padding-top: 20px;
+    padding-bottom: 40px;
     width: calc(100% - 170px);
     box-sizing: border-box;
     background-color: #FEF9EB;
@@ -102,28 +93,421 @@ body {
 .main-content {
     flex: 1;
     padding-right: 20px;
+    overflow-y: auto; /* 세로 스크롤 활성화 */
+    max-height: calc(100vh - 60px);
+}
+.main-content::-webkit-scrollbar{
+	width: 8px;
+}
+.main-content::-webkit-scrollbar-thumb{
+	border-radius: 4px;
+	background: #645A5A;
+}
+.main-content::-webkit-scrollbar-track{
+	background: transparent;
+}
+
+/* Chat Header */
+.chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #645A5A;
+    position: absolute;
+    width: calc(100vw - 670px);
+    background-color: #FEF9EB;
+    z-index: 3;
+}
+
+.chat-title {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.chat-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.chat-btn {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 15px;
+    background-color: #645A5A;
+    color: #ffffff;
+    cursor: pointer;
+}
+.chat-btn:active{
+	transform: scale(0.96);
+    transition: transform 0.1s ease;
+}
+.open-sidebar {
+    display: none;
+}
+
+/* Chat Messages */
+.chat-messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 40px;
+}
+
+.message {
+    display: flex;
+    align-items: center;
+}
+
+.message-left {
+    justify-content: flex-start;
+}
+
+.message-right {
+    justify-content: flex-end;
+}
+
+.bubble {
+    max-width: 70%;
+    padding: 10px 15px;
+    background-color: #4a4a4a;
+    color: #ffffff;
+    border-radius: 15px;
+    line-height: 1.4;
+    word-wrap: break-word;
+    position: relative;
+}
+
+/* Different styles for message alignment */
+.message-left .bubble {
+    background-color: #E3DBC4;
+    color: #645A5A;
+}
+
+.message-right .bubble {
+    background-color: #645A5A;
+    color: #E3DBC4;
+}
+
+.message-time {
+    font-size: 12px;
+    color: black;
+    margin-top: 5px;
+}
+
+
+/* Chat Input */
+.chat-input {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-top: 1px solid #645A5A;
+    position: absolute;
+    bottom:0px;
+    width: calc(100% - 670px);
+}
+
+.input-box {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #645A5A;
+    border-radius: 20px;
+    outline: none;
+}
+
+.send-btn {
+    background: #645A5A;
+    margin-left: 10px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+.send-btn:active{
+	transform: scale(0.96);
+	transition: transform 0.1s ease;
+}
+.send-btn img{
+	width: 24px;
+	height: 24px;
 }
 
 /* Right Sidebar */
 .sidebar-right {
     width: 600px;
     background-color: #ffffff;
-    padding: 20px;
+    padding: 12px 20px;
     border-radius: 10px;
     height: 100vh;
     overflow-y: auto;
 }
 
-.sidebar-right .account {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    margin-bottom: 20px;
+.sidebar-right::-webkit-scrollbar{
+	width: 8px;
+}
+.sidebar-right::-webkit-scrollbar-thumb{
+	border-radius: 4px;
+	background: #645A5A;
+}
+.sidebar-right::-webkit-scrollbar-track{
+	background: transparent;
 }
 
-.sidebar-right .account img {
+.sidebar-right-header {
+	display: flex;
+	width: 100%;
+	align-items: center;
+	height: 40px;
+	z-index: 10;
+}
+.header-logo {
+	display: flex;
+	align-items: center;
+	position: absolute;
+}
+	
+.header-logo img{
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+}
+
+.account {
+    display: flex;
+    align-items: center;
+    position : absolute;
+    right: 28px;
+}
+
+.account img {
 	cursor: pointer;
     width: 24px;
     height: 24px;
     margin-right: 8px;
+}
+
+/* 채팅방 목록 */
+.chat-list {
+    background-color:white;
+    margin-bottom: 32px;
+}
+
+.chat-message {
+	cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 12px;
+    background-color: #FEF9EB80;
+    margin-top: 8px;
+    border-radius: 8px;
+    box-shadow: 2px 2px 4px #00000020;
+}
+.chat-message:active{
+	transform: scale(0.96);
+	transition: transform 0.1s ease;
+}
+
+.profile-image-container {
+    position: relative;
+    width: 60px;
+    height: 60px;
+}
+
+.profile-circle {
+    width: 48px;
+    height: 48px;
+    background-color: #d9d9d9;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 8px;
+    color: black;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+.book-rectangle {
+    width: 40px;
+    height: 48px;
+    background-color: #bbb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 8px;
+    color: #333;
+    position: absolute;
+    top: 12px;
+    left: 20px;
+    z-index: 1;
+    border-radius: 2px;
+    
+}
+.message-details {
+    display: flex;
+    flex-direction: column;
+    color: black;
+}
+
+.message-time {
+    font-size: 12px;
+}
+
+.message-text {
+    font-size: 16px;
+}
+
+/* 기본 스타일 설정 */
+.sidebar-right {
+    width: 600px;
+    transition: width 0.5s ease, opacity 0.5s ease;
+    opacity: 1;
+    margin-bottom:20px;
+}
+
+/* 작은 화면에서 right-sidebar 숨기기 */
+@media (max-width: 1080px) {
+	.open-sidebar {
+		display: inline-block;
+	}
+    .sidebar-right {
+        width: 0;
+        opacity: 0;
+        overflow: hidden;
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100%;
+        z-index: 10; /* 화면 위로 나오게 설정 */
+        overflow-y: auto;
+    }
+    
+    /* main-wrapper가 전체 너비를 차지하도록 조정 */
+    .main-wrapper {
+        width: calc(100% - 100px);
+        padding-left: 20px;
+    }
+
+    /* sidebar-right가 열릴 때의 스타일 */
+    .sidebar-right.show {
+        width: 300px; /* 원하는 너비 설정 */
+        opacity: 1;
+        z-index: 120;
+    }
+    
+    .chat-header{
+    width : calc(100vw - 150px);
+    }
+    .chat-input {
+    width : calc(100vw - 170px);
+    }
+}
+
+
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none; /* 기본적으로 숨김 */
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+}
+
+/* Reservation Modal */
+.reservation-modal {
+    background-color: #FEF9EB;
+    padding: 20px;
+    border-radius: 15px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 200;
+}
+
+.reservation-modal h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.modal-content .modal-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+.dropdown {
+    font-size: 16px;
+    color: #645A5A;
+}
+
+.complete-btn {
+    background-color: #645A5A;
+    color: #ffffff;
+    border: none;
+    border-radius: 15px;
+    padding: 4px 12px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.complete-btn:active{
+	transform: scale(0.92);
+	transition: transform 0.1s ease;
+}
+/* Review Modal Overlay */
+.review-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none; /* 기본적으로 숨김 */
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+}
+
+/* Review Modal */
+.review-modal {
+    background-color: #FEF9EB;
+    padding: 20px;
+    border-radius: 15px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.review-modal h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.star-rating {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin: 20px 0;
+}
+
+.star {
+    font-size: 24px;
+    cursor: pointer;
+    color: #bbb;
+    transition: color 0.1s;
+}
+
+.star.selected {
+    color: #FFD700; /* 노란색 */
 }

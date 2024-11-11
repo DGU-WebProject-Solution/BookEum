@@ -1,10 +1,84 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*" %>
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>Book Exchange</title>
-    <link rel="stylesheet" type="text/css" href="chat.css">
+    <link rel="stylesheet" type="text/css" href="./chat.css">
+    <script>
+		function toggleSidebar() {
+    		const sidebar = document.querySelector('.sidebar-right');
+    		sidebar.classList.toggle('show');
+		}
+		// 사이드바 외부 클릭 감지
+		document.addEventListener('click', function(event) {
+		    const sidebar = document.querySelector('.sidebar-right');
+		    const sidebarButton = document.querySelector('.chat-btn'); // 사이드바 열기 버튼
+		    if (sidebar.classList.contains('show') && !sidebar.contains(event.target) && event.target !== sidebarButton) {
+		        sidebar.classList.remove('show'); // 사이드바 닫기
+		    }
+		});
+		function openModal() {
+	        document.getElementById("modalOverlay").style.display = "flex";
+	    }
+
+	    // 모달 닫기 함수
+	    function closeModal() {
+	        document.getElementById("modalOverlay").style.display = "none";
+	    }
+
+	    // 외부 클릭으로 모달 닫기
+	    document.getElementById("modalOverlay").addEventListener("click", function(event) {
+	    	const modal = document.querySelector('.reservation-modal');
+	    	if (event.target === this || !modal.contains(event.target)) {
+	            closeModal();
+	        }
+	    });
+	    // 후기 모달 열기 함수
+	    function openReviewModal() {
+	        document.getElementById("reviewModalOverlay").style.display = "flex";
+	    }
+
+	    // 후기 모달 닫기 함수
+	    function closeReviewModal() {
+	        document.getElementById("reviewModalOverlay").style.display = "none";
+	    }
+
+	    // 별점 설정 함수
+	    function setRating(rating) {
+	        const stars = document.querySelectorAll('.star');
+	        stars.forEach((star, index) => {
+	            if (index < rating) {
+	                star.classList.add('selected');
+	            } else {
+	                star.classList.remove('selected');
+	            }
+	        });
+	    }
+
+	    // 후기 제출 함수
+	    function submitReview() {
+	        // 리뷰 제출 로직 추가 가능
+	        closeReviewModal();
+	        alert("후기가 제출되었습니다.");
+	    }
+
+	    function submitReservation() {
+	        // 리뷰 제출 로직 추가 가능
+	        closeModal();
+	        alert("교환 일정이 예약되었습니다.");
+	    }
+
+	    // 외부 클릭으로 모달 닫기
+	    document.getElementById("reviewModalOverlay").addEventListener("click", function(event) {
+	        const modal = document.querySelector('.review-modal');
+	        if (event.target === this || !modal.contains(event.target)) {
+	            closeReviewModal();
+	        }
+	    });
+	</script>
 </head>
 <body>
     <!-- Sidebar -->
@@ -21,12 +95,146 @@
     <!-- Main Wrapper to hold content and right sidebar -->
     <div class="main-wrapper">
         <!-- Main Content -->
-        <div class="main-content"></div>
+        <div class="main-content">
+		    <div class="chat-header">
+        		<span class="chat-title">이수민</span>
+		        <div class="chat-buttons">
+		            <button class="chat-btn open-sidebar" onclick="toggleSidebar()">채팅 목록 보기</button>
+        		    <button class="chat-btn" onClick="openModal()">예약하기</button>
+		            <button class="chat-btn" onClick="openReviewModal()">교환 완료</button>
+        		</div>
+    		</div>
+    		<div class="chat-messages">
+    		
+    		<%!
+    	    public class Message {
+    	        private String text;
+    	        private String timestamp;
+    	        private boolean user;
+
+    	        public Message(String text, String timestamp, boolean user) {
+    	            this.text = text;
+    	            this.timestamp = timestamp;
+    	            this.user = user;
+    	        }
+
+    	        public String getText() {
+    	            return text;
+    	        }
+
+    	        public String getTimestamp() {
+    	            return timestamp;
+    	        }
+
+    	        public boolean isUser() {
+    	            return user;
+    	        }
+    	    }
+    	    %>
+    		<%
+    		List<Message> messages = new ArrayList<>();
+    		messages.add(new Message("안녕하세요! 교환을 진행하고 싶습니다.", "3시간 전", false));
+    		messages.add(new Message("네, 그때 뵙겠습니다.", "3시간 전", true));
+    		messages.add(new Message("책 상태는 어떤가요?", "2시간 전", false));
+    		messages.add(new Message("상태는 양호합니다!", "2시간 전", true));
+    		messages.add(new Message("상태는 양호합니다!", "2시간 전", true));
+    		messages.add(new Message("상태는 양호합니다!", "2시간 전", true));
+    		messages.add(new Message("상태는 양호합니다!", "2시간 전", true));
+    		messages.add(new Message("상태는 양호합니다!", "2시간 전", true));
+    		messages.add(new Message("상태는 양호합니다!", "2시간 전", true));
+    		messages.add(new Message("상태는 양호합니다!", "2시간 전", false));
+    		
+    		if (messages != null) {
+    			for (Message message: messages) {
+    				String alignmentClass = message.isUser()? "message-right" : "message-left";
+	        %>
+    		<div class="message <%= alignmentClass %>">
+            	<div class="bubble">
+		            <span class="message-text"><%= message.getText() %></span>
+         			<div class="message-time"><%= message.getTimestamp() %></div>
+          		</div>
+       		</div>  
+       		<%
+       		}}
+       		%>
+       		</div>
+    		<div class="chat-input">
+		        <input type="text" placeholder="전송할 메세지를 입력하세요." class="input-box">
+        		<button class="send-btn"><img src="../images/cameraChat.png" alt="CameraIcon"></button>
+    		</div>
+		</div>
+		
+		<!-- 예약하기 -->
+		<div class="modal-overlay" id="modalOverlay">
+    		<div class="reservation-modal">
+        		<h2>이수민 님과 예약</h2>
+	        	<div class="modal-content">
+    	        	<div class="modal-row">
+        	        	<span>날짜</span>
+            	    	<div class="dropdown">
+            	    		<input type=date>
+            	    	</div>
+            		</div>
+	            	<div class="modal-row">
+    	    	        <span>시간</span>
+    		            <div class="dropdown"><input type="time"></div>
+	        	    </div>
+            	<button class="complete-btn" onclick="submitReservation()">완료</button>
+            	<button class="complete-btn" onclick="closeModal()">취소</button>
+            	
+        	</div>
+    	</div>
+	</div>
+	<!-- 교환 완료 -->
+		<div class="review-modal-overlay" id="reviewModalOverlay">
+		    <div class="review-modal">
+    		    <h2>교환을 완료하시겠습니까?<br>이수민 님에 대한 후기를 남겨주세요.</h2>
+        		<div class="star-rating">
+            		<span class="star" onclick="setRating(1)">★</span>
+		            <span class="star" onclick="setRating(2)">★</span>
+    		        <span class="star" onclick="setRating(3)">★</span>
+        		    <span class="star" onclick="setRating(4)">★</span>
+            		<span class="star" onclick="setRating(5)">★</span>
+	        	</div>
+    	    	<button class="complete-btn" onclick="submitReview()">후기 보내기</button>
+		    </div>
+		</div>
     </div>
+
     <!-- Right Sidebar -->
     <div class="sidebar-right">
-        <div class="account">
-            <img src="../images/account.png" alt="Account Icon"> 솔루션 님 환영합니다
+    
+    	<!-- 로고와 CHAT 문구 들어가야 함 -->
+    	<div class="sidebar-right-header">
+    	    <div class="header-logo">
+        	    <img src="../images/logo.png" alt="Logo"> CHAT
+        	</div>   
+	    	<div class="account">
+        	    <img src="../images/account.png" alt="Account Icon" class="mypage-icon"> 솔루션
+        	</div>     	
+    	</div>
+        
+        <!-- Chat List Section -->
+        <div class="chat-list">
+            <%
+                // Sample messages for chat list; replace with dynamic content as needed.
+                String[] chats = {"네 그때 뵙겠습니다.", "확인했습니다.", "다음에 봬요.", 
+                                     "알겠습니다.", "좋은 하루 되세요!", "감사합니다.", "교환 원합니다.", "답장 주세요.", "안녕하세요~!", "네~ 감사합니다!"};
+                for (String chat : chats) {
+            %>
+	            <div class="chat-message">
+        	        <div class="profile-image-container">
+            	        <div class="profile-circle">프로필</div>
+                	    <div class="book-rectangle">책 이미지</div>
+	                </div>
+    	            <div class="message-details">
+        	            <div class="message-time">3시간 전</div>
+            	        <div class="message-text"><%= chat %></div>
+                	</div>
+            	</div>
+            <%
+                }
+            %>
         </div>
     </div>
 </body>

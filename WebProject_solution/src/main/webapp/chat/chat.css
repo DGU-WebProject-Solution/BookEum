@@ -173,11 +173,9 @@ body {
 .bubble {
     max-width: 70%;
     padding: 10px 15px;
-    background-color: #4a4a4a;
-    color: #ffffff;
+    background-color: #645A5A;
+    color: #E3DBC4;
     border-radius: 15px;
-    line-height: 1.4;
-    word-wrap: break-word;
     position: relative;
 }
 
@@ -505,4 +503,22 @@ body {
 
 .star.selected {
     color: #FFD700; /* 노란색 */
+}
+
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px); /* 살짝 아래에서 올라오는 효과 */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* main-content의 애니메이션 클래스 */
+.main-content.fade-in {
+    animation: fadeIn 0.5s ease-out;
 }

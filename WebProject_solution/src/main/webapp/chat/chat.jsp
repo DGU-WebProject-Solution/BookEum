@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <title>Book Exchange</title>
     <link rel="stylesheet" type="text/css" href="./chat.css">
-    <script>
+    <script type="text/javascript">
 		function toggleSidebar() {
     		const sidebar = document.querySelector('.sidebar-right');
     		sidebar.classList.toggle('show');
@@ -78,6 +78,92 @@
 	            closeReviewModal();
 	        }
 	    });
+	    
+	    document.addEventListener("DOMContentLoaded", function () {
+	        const chatListItems = document.querySelectorAll(".chat-message");
+	        chatListItems.forEach((item, index) => {
+	            item.addEventListener("click", () => loadChatRoom(index));
+	        });
+	    });
+
+	    function loadChatRoom(roomId) {
+	        const chatRooms = [
+	            {
+	                title: "네 그때 뵙겠습니다.",
+	                userName: "이수민",
+	                messages: [
+	                    { text: "안녕하세요! 교환을 진행하고 싶습니다.", time: "3시간 전", user: false },
+	                    { text: "네, 그때 뵙겠습니다.", time: "3시간 전", user: true }
+	                ]
+	            },
+	            {
+	                title: "확인했습니다.",
+	                userName: "김해솔",
+	                messages: [
+	                    {
+	                    	text: "책 상태는 어떤가요?",
+	                    	time: "2시간 전",
+	                    	user: false,
+	                    },
+	                    {
+	                    		text: "상태는 양호합니다!",
+	                    		time: "2시간 전",
+	                    		user: true,
+	                    },
+	                ]
+	            }
+	        ];
+
+	        const selectedRoom = chatRooms[roomId];
+	        if (!selectedRoom) {
+	            console.error("Invalid roomId or no messages found"); // 오류 메시지 출력
+	            return;
+	        }
+	        const mainContent = document.querySelector('.main-content');
+
+	        // 기존 콘텐츠 삭제
+	        mainContent.innerHTML = '';
+
+	        // 부드러운 화면 전환을 위해 애니메이션 클래스 추가
+	        mainContent.classList.remove('fade-in'); // 기존 애니메이션 제거
+	        void mainContent.offsetWidth; // DOM 리플로우로 강제 리셋
+	        mainContent.classList.add('fade-in'); // 새 애니메이션 적용
+	        	        
+	        let chatHTML = `
+	            <div class="chat-header">
+	                <span class="chat-title">${selectedRoom.userName}</span>
+	                <div class="chat-buttons">
+	                    <button class="chat-btn open-sidebar" onclick="toggleSidebar()">채팅 목록 보기</button>
+	                    <button class="chat-btn" onclick="openModal()">예약하기</button>
+	                    <button class="chat-btn" onclick="openReviewModal()">교환 완료</button>
+	                </div>
+	            </div>
+	            <div class="chat-messages">
+	        `;
+	        
+	        selectedRoom.messages.forEach((message, index) => {
+	            const alignmentClass = message.user ? "message-right" : "message-left";
+	            chatHTML += `
+	                <div class="message-${alignmentClass}">
+	                    <div class="bubble">
+	                        <span class="message-text">${message.text}</span>
+	                        <div class="message-time">${message.time}</div>
+	                    </div>
+	                </div>
+	            `;
+	        });
+
+	        chatHTML += `
+	            </div>
+	            <div class="chat-input">
+	                <input type="text" placeholder="전송할 메시지를 입력하세요." class="input-box">
+	                <button class="send-btn"><img src="../images/cameraChat.png" alt="CameraIcon"></button>
+	            </div>
+	        `;
+	        
+	        mainContent.innerHTML = chatHTML;
+	    }
+
 	</script>
 </head>
 <body>
@@ -98,70 +184,9 @@
         <!-- Main Content -->
         <div class="main-content">
 		    <div class="chat-header">
-        		<span class="chat-title"><%= user %></span>
 		        <div class="chat-buttons">
 		            <button class="chat-btn open-sidebar" onclick="toggleSidebar()">채팅 목록 보기</button>
-        		    <button class="chat-btn" onClick="openModal()">예약하기</button>
-		            <button class="chat-btn" onClick="openReviewModal()">교환 완료</button>
         		</div>
-    		</div>
-    		<div class="chat-messages">
-    		
-    		<%!
-    	    public class Message {
-    	        private String text;
-    	        private String timestamp;
-    	        private boolean user;
-
-    	        public Message(String text, String timestamp, boolean user) {
-    	            this.text = text;
-    	            this.timestamp = timestamp;
-    	            this.user = user;
-    	        }
-
-    	        public String getText() {
-    	            return text;
-    	        }
-
-    	        public String getTimestamp() {
-    	            return timestamp;
-    	        }
-
-    	        public boolean isUser() {
-    	            return user;
-    	        }
-    	    }
-    	    %>
-    		<%
-    		List<Message> messages = new ArrayList<>();
-    		messages.add(new Message("안녕하세요! 교환을 진행하고 싶습니다.", "3시간 전", false));
-    		messages.add(new Message("네, 그때 뵙겠습니다.", "3시간 전", true));
-    		messages.add(new Message("책 상태는 어떤가요?", "2시간 전", false));
-    		messages.add(new Message("상태는 양호합니다!", "2시간 전", true));
-    		messages.add(new Message("상태는 양호합니다!", "2시간 전", true));
-    		messages.add(new Message("상태는 양호합니다!", "2시간 전", true));
-    		messages.add(new Message("상태는 양호합니다!", "2시간 전", true));
-    		messages.add(new Message("상태는 양호합니다!", "2시간 전", true));
-    		messages.add(new Message("상태는 양호합니다!", "2시간 전", true));
-    		messages.add(new Message("상태는 양호합니다!", "2시간 전", false));
-    		
-    		if (messages != null) {
-    			for (Message message: messages) {
-    				String alignmentClass = message.isUser()? "message-right" : "message-left";
-	        %>
-    		<div class="message <%= alignmentClass %>">
-            	<div class="bubble">
-		            <span class="message-text"><%= message.getText() %></span>
-         			<div class="message-time"><%= message.getTimestamp() %></div>
-          		</div>
-       		</div>  
-       		<%
-       		}}
-       		%>
-       		</div>
-    		<div class="chat-input">
-		        <input type="text" placeholder="전송할 메세지를 입력하세요." class="input-box">
-        		<button class="send-btn"><img src="../images/cameraChat.png" alt="CameraIcon"></button>
     		</div>
 		</div>
 		
@@ -198,6 +223,7 @@
             		<span class="star" onclick="setRating(5)">★</span>
 	        	</div>
     	    	<button class="complete-btn" onclick="submitReview()">후기 보내기</button>
+		        <button class="complete-btn" onclick="closeReviewModal()">취소</button>
 		    </div>
 		</div>
     </div>
@@ -219,18 +245,17 @@
         <div class="chat-list">
             <%
                 // Sample messages for chat list; replace with dynamic content as needed.
-                String[] chats = {"네 그때 뵙겠습니다.", "확인했습니다.", "다음에 봬요.", 
-                                     "알겠습니다.", "좋은 하루 되세요!", "감사합니다.", "교환 원합니다.", "답장 주세요.", "안녕하세요~!", "네~ 감사합니다!"};
-                for (String chat : chats) {
+                String[] lastChats = {"네 그때 뵙겠습니다.", "확인했습니다.", "좋은 하루 되세요!", "감사합니다.", "교환 원합니다."};
+                for (int i = 0; i < lastChats.length; i++) {
             %>
-	            <div class="chat-message">
+	            <div class="chat-message" onclick="loadChatRoom(<%=i%>)">
         	        <div class="profile-image-container">
             	        <div class="profile-circle">프로필</div>
                 	    <div class="book-rectangle">책 이미지</div>
 	                </div>
     	            <div class="message-details">
         	            <div class="message-time">3시간 전</div>
-            	        <div class="message-text"><%= chat %></div>
+            	        <div class="message-text"><%= lastChats[i] %></div>
                 	</div>
             	</div>
             <%

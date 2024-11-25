@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="dao.model.userDAO" %>
+<%@ page import="dao.bean.Userbean" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,6 +9,11 @@
     <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 <body>
+<%
+
+	session = request.getSession(false);
+	Userbean user = (Userbean) session.getAttribute("user");
+    %>
     <!-- Sidebar -->
     <div class="sidebar">
         <img src="./images/logo.png" alt="Logo" class="logo"><span>책이음</span>
@@ -30,7 +37,7 @@
             <!-- Title -->
             <h1 class="title-special">Happy reading,<br>Sweat dream</h1>
             <p>나만의 책을 찾고, 당신의 책을 나누세요. <br>간단한 교환으로 새로운 이야기가 시작됩니다.</p>
-            <a href="#" class="login">로그인하기</a>
+            <a href="./User/login.jsp" class="login">로그인하기</a>
 
             <!-- Book Section -->
             <div class="book-section">
@@ -68,7 +75,11 @@
     <!-- Right Sidebar -->
     <div class="sidebar-right">
         <div class="account">
-            <img src="./images/account.png" alt="Account Icon"> 솔루션 님 환영합니다
+            <% if (user != null) { %>
+                <a href = "./User/mypage.jsp"><img src="../images/account.png" alt="Account Icon"></a> ${user.name } 님 환영합니다
+            <% } else { %>
+                <img src="../images/account.png" alt="Account Icon"><a href="../login.jsp" class="login-button">로그인하기</a>
+            <% } %>
         </div>
         
         <div class="recommendbook">

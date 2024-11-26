@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,9 +11,9 @@
 <body>
 	<div>
         <h1 class="title-special">Log In</h1>
-        <form>
+        <form action = "loginProcess.jsp" method = "post">
         	<div class="form-group">
-	            <input type="text" name="username" placeholder="ID">
+	            <input type="text" name="id" placeholder="ID">
 	        </div>
 	
 	        <div class="form-group">

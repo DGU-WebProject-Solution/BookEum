@@ -12,11 +12,11 @@
 		<div class = "title-container">
 				<h1 class="title-special">Sign Up</h1>
 		</div>
-		<form action="" method="post">
+		<form action="signupProcess.jsp" method="post">
 		
 			아이디
 	        <div class="form-group">
-	            <input type="text" name="username" placeholder="아이디를 입력하세요." required>
+	            <input type="text" name="id" placeholder="아이디를 입력하세요." required>
 	        </div>
 	        
 			비밀번호
@@ -30,10 +30,8 @@
 	        </div>
 			
 			생년월일
-	        <div class="form-group birth-date-group">
-	            <input type="text" name="year" placeholder="년" maxlength="4">
-	            <input type="text" name="month" placeholder="월" maxlength="2">
-	            <input type="text" name="day" placeholder="일" maxlength="2">
+	        <div class="form-group">
+				<input type = "date" name = "birth">
 	        </div>
 	
 	        주소

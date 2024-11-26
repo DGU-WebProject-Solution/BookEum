@@ -7,14 +7,14 @@
 
 @font-face {
     font-family: 'NanumBarunGothic';
-    src: url('./fonts/NanumBarunGothicLight.ttf') format('truetype');
+    src: url('../fonts/NanumBarunGothicLight.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'SF_HambakSnow';
-    src: url('./fonts/SF함박눈TTF.ttf') format('truetype');
+    src: url('../fonts/SF함박눈TTF.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -209,9 +209,11 @@ body {
     width: 120px;
     height: 180px;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .book-item p {
     margin-top: 10px;
     font-size: 16px;
+    cursor: pointer;
 }

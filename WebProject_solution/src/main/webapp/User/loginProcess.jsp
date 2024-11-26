@@ -14,7 +14,7 @@
     Userbean user = (Userbean) session.getAttribute("user");
     
 	if (user != null) {
-		response.sendRedirect("../main.jsp");
+		response.sendRedirect("../main/main.jsp");
 		return;
 	}
 	
@@ -24,7 +24,7 @@
     user = dao.logIn(user, id, pw, propertiesPath);
     if(user != null) {
         session.setAttribute("user", user); // 세션에 유저 정보 전체 저장 
-        response.sendRedirect("../main.jsp");
+        response.sendRedirect("../main/main.jsp");
  
     } else {
     	%>

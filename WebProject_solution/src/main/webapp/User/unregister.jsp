@@ -10,7 +10,7 @@
 	Userbean user = (Userbean) session.getAttribute("user");
 	
 	String id = user.getEmailId();
-    String pw = user.getPw();
+    String pw = user.getPassword();
 
     userDAO dao = userDAO.getInstance();
     String propertiesPath = application.getRealPath("./WEB-INF/db.properties");
@@ -20,7 +20,7 @@
     	if (session != null) {
             session.invalidate(); // 세션 정보 제거 
         }
-        response.sendRedirect("../main.jsp");
+        response.sendRedirect("../main/main.jsp");
     } else { 
     	%>
     	<script type="text/javascript">

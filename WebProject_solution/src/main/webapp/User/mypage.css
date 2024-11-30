@@ -32,17 +32,40 @@ body {
 }
 
 /* Sidebar */
-/* Sidebar */
 .sidebar {
     width: 100px;
     background-color: #FEF9EB;
     position: fixed;
     height: 100%;
-    padding-top: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 20px;
 }
+
+.sidebar a {
+    text-decoration: none; /* 밑줄 제거 */
+    color: #4a4a4a; /* 기본 텍스트 색상 */
+    display: flex;
+    flex-direction: column; /* 아이콘과 텍스트를 세로로 배치 */
+    align-items: center;
+
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+
+
+.sidebar a img {
+    width: 35px; /* 아이콘 크기 */
+    height: 35px;
+    margin-bottom: 5px; /* 아이콘과 텍스트 간격 */
+}
+
+.sidebar a span {
+    font-size: 14px;
+    text-align: center;
+}
+
 
 .sidebar::after {
     content: "";
@@ -58,42 +81,68 @@ body {
     width: 35px;
     height: 40px;
     margin-bottom: 10px;
+    margin-top: 20px;
 }
+
 
 .sidebar ul {
     list-style: none;
     padding: 0;
-    width: 100%;
-    text-align: center;
-    margin-top: 20px;
+    width: 100%; /* 전체 너비 사용 */
 }
 
 .sidebar ul li {
-    padding: 15px 0;
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* 아이콘과 텍스트를 세로로 배치 */
     align-items: center;
-    font-size: 14px;
+    justify-content: center;
+    margin-top: 10px; /* 항목 간 간격 */
+    margin-bottom: 10px; /* 항목 간 간격 */
     color: #4a4a4a;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    font-size: 14px;
+    transition: color 0.3s ease, background-color 0.3s ease;
 }
 
 .sidebar ul li:hover {
-    background-color: #e8e4d8;
+    background-color: #e8e4d8; /* 호버 시 배경색 변경 */
+    color: #645A5A; /* 텍스트 색 변경 */
+    border-radius: 10px; /* 호버 시 모서리 둥글게 */
+}
+
+/* 링크 기본 스타일 제거 */
+.sidebar ul li a {
+    text-decoration: none; /* 밑줄 제거 */
+    color: inherit; /* 부모의 텍스트 색상 상속 */
+    display: flex;
+    flex-direction: column; /* 아이콘과 텍스트를 세로 배치 */
+    align-items: center;
+}
+
+.sidebar ul li a:hover {
+    color: #645A5A; /* 호버 시 텍스트 색 변경 */
 }
 
 .sidebar ul li img {
-    width: 24px;
-    margin-bottom: 5px;
+	 margin-top: 10px; /* 아이콘과 텍스트 간격 */
+    width: 30px; /* 아이콘 크기 */
+    height: 30px;
+    margin-bottom: 5px; /* 아이콘과 텍스트 간격 */
 }
 
-.container {
-    display: inline-flex;
-    gap: 20px;
-    position: relative;
+.sidebar ul li span {
+    font-size: 14px;
+    text-align: center;
+     margin-bottom: 10px;
+    
 }
-
+.sidebar-right {
+    width: 1000px;
+    padding: 20px;
+    border-radius: 10px;
+    height: 100vh;
+    font-family: 'NanumBarunGothic', sans-serif; /* NanumBarunGothic 폰트 기본 적용 */
+}
 /* profile & button */
 .profile-section {
 	display: flex;
@@ -159,7 +208,32 @@ body {
 	margin-left: 30px;
 	text-align: center;
 }
+a{
+	text-decoration: none;
+}
+button {
+    display: flex;
+    align-items: center; /* 수직 중앙 정렬 */
+    justify-content: left; /* 수평 중앙 정렬 */
+    padding: 10px 20px; /* 버튼 여백 */
+    font-size: 16px; /* 글씨 크기 */
+    border: none;
+    background-color: #f0f0f0; /* 버튼 배경색 */
+    border-radius: 5px; /* 버튼 모서리 둥글게 */
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-decoration: none;
+}
 
+button:hover {
+    background-color: #4A4A4A; /* 버튼 호버 시 색상 변경 */
+}
+
+button .icon {
+    margin-right: 8px; /* 아이콘과 글씨 사이 여백 */
+    width: 20px; /* 아이콘 크기 조정 */
+    height: 20px; /* 아이콘 크기 조정 */
+}
 /* exchange record box */
 .tabs {
     display: flex;
@@ -191,7 +265,6 @@ body {
 	border: 5px solid #645A5A;
 	border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
-    overflow-y: auto;
 }
 
 .book-list {

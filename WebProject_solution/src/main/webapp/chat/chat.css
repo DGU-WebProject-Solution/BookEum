@@ -218,11 +218,13 @@ body {
 
 .send-btn {
     background: #645A5A;
+    color: #ffffff;
     margin-left: 10px;
     cursor: pointer;
     width: 40px;
     height: 40px;
     border-radius: 50%;
+    font-size: 12px;
 }
 .send-btn:active{
 	transform: scale(0.96);

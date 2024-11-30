@@ -4,6 +4,185 @@
 <%@ page import="dao.model.userDAO"%>
 <%@ page import="dao.bean.Userbean"%>
 
+	<%
+	request.setCharacterEncoding("UTF-8");
+	int yourBookId = 0;
+	//내가 교환하고 싶은 책의 아이디
+	int yourBookUserId = 0;
+	//내가 교환하고 싶은 책의 주인의 아이디
+	String yourBookUserName = "";
+	//내가 교환하고 싶은 책의 사용자 이름	
+	int myBookId = 0;
+	int allChatCnt = 0;
+	int myChatCnt = 0;
+	int myChatNum = 0;
+	
+	String referer = request.getHeader("Referer");
+	if (referer.contains("bookdetail/bookdetail.jsp")) {
+		yourBookId = Integer.parseInt(request.getParameter("yourBookId"));
+		//내가 교환하고 싶은 책의 아이디
+		yourBookUserId = Integer.parseInt(request.getParameter("yourBookUserId"));
+		//내가 교환하고 싶은 책의 주인의 아이디
+		yourBookUserName = request.getParameter("yourBookUserName");
+		//내가 교환하고 싶은 책의 사용자 이름	
+		myBookId = Integer.parseInt(request.getParameter("myBookId"));
+		//내가 교환할 책의 아이디
+	}
+	Userbean user = (Userbean) session.getAttribute("user");
+	int userId = user.getId();
+	if (userId == yourBookUserId) {
+		response.sendRedirect(referer);
+	}
+
+	Connection conn = null;
+	PreparedStatement pstmt = null;
+	ResultSet rs = null;
+
+	String propertiesPath = application.getRealPath("./WEB-INF/db.properties");
+	Properties props = new Properties();
+
+	try (FileInputStream fis = new FileInputStream(propertiesPath)) {
+		props.load(fis);
+	} catch (IOException e) {
+		out.println("<p>DB 설정 파일 읽기 중 오류가 발생했습니다.</p>");
+	}
+
+	String dbURL = props.getProperty("jdbc.url");
+	String dbUser = props.getProperty("jdbc.username");
+	String dbPass = props.getProperty("jdbc.password");
+	
+	
+	try {
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		conn = DriverManager.getConnection(dbURL, dbUser, dbPass);
+
+		String sql = "SELECT count(*) FROM Chat";
+		pstmt = conn.prepareStatement(sql);
+		rs = pstmt.executeQuery();
+
+		if (rs.next()) {
+			allChatCnt = rs.getInt(1);
+		}
+	} catch (Exception e) {
+		e.printStackTrace();
+		out.println("<p>오류 발생: " + e.getMessage() + "</p>");
+	}
+
+	if (allChatCnt == 0) {
+		allChatCnt++;
+		myChatNum = allChatCnt;
+	} else {
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection(dbURL, dbUser, dbPass);
+
+			String sql = "SELECT count(*) FROM Chat where myBookUserId = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userId);
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				myChatCnt = rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			out.println("<p>오류 발생: " + e.getMessage() + "</p>");
+		}
+		if (myChatCnt == 0) {
+			allChatCnt++;
+			myChatNum = allChatCnt;
+		} else {
+			try {
+				Class.forName("com.mysql.cj.jdbc.Driver");
+				conn = DriverManager.getConnection(dbURL, dbUser, dbPass);
+
+				String sql = "SELECT roomId FROM Chat where myBookUserId = ?, yourBookUserId = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, userId);
+				pstmt.setInt(2, yourBookUserId);
+				rs = pstmt.executeQuery();
+
+				if (rs.next()) {
+					myChatCnt = rs.getInt("roomId");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				out.println("<p>오류 발생: " + e.getMessage() + "</p>");
+			}
+			if (myChatCnt == 0) {
+				allChatCnt++;
+				myChatNum = allChatCnt;
+			}
+		}
+	}
+	
+	
+	//채팅 전송 부분
+	if(referer.contains("chat.jsp") && "POST".equalsIgnoreCase(request.getMethod())) {
+
+		// 파라미터 가져오기
+        String chatContent = request.getParameter("chatContent");
+        String roomIdParam = request.getParameter("roomId");
+        String myBookParam = request.getParameter("myBookId");
+        String yourBookParam = request.getParameter("yourBookId");
+
+		yourBookUserId = Integer.parseInt(request.getParameter("yourBookUserId"));
+		//내가 교환하고 싶은 책의 주인의 아이디
+		yourBookUserName = request.getParameter("yourBookUserName");
+		//내가 교환하고 싶은 책의 사용자 이름	
+
+		// Null 및 빈 값 확인
+        if (chatContent != null && !chatContent.trim().isEmpty() &&
+            roomIdParam != null && myBookParam != null && yourBookParam != null) {
+
+            myChatNum = Integer.parseInt(roomIdParam);
+            myBookId = Integer.parseInt(myBookParam);
+            yourBookId = Integer.parseInt(yourBookParam);
+
+            try {
+                // DB 연결
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                conn = DriverManager.getConnection(dbURL, dbUser, dbPass);
+
+                // SQL 쿼리
+                String sql = "INSERT INTO Chat (roomId, myBook, yourBook, chatContent, chatTime, createdAt) " +
+                             "VALUES (?, ?, ?, ?, NOW(), NOW())";
+                pstmt = conn.prepareStatement(sql);
+
+                // 파라미터 바인딩
+                pstmt.setInt(1, myChatNum);
+                pstmt.setInt(2, myBookId);
+                pstmt.setInt(3, yourBookId);
+                pstmt.setString(4, chatContent);
+
+                // 데이터베이스에 저장
+                int rowsInserted = pstmt.executeUpdate();
+                if (rowsInserted > 0) {
+                    out.println("<p>메시지가 성공적으로 전송되었습니다.</p>");
+                } else {
+                    out.println("<p>메시지 전송에 실패했습니다.</p>");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                out.println("<p>오류가 발생했습니다: " + e.getMessage() + "</p>");
+            } finally {
+                // 리소스 정리
+                try {
+                    if (pstmt != null) pstmt.close();
+                    if (conn != null) conn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            out.println("<p>유효한 데이터가 입력되지 않았습니다.</p>");
+        }
+	
+	
+	}
+	
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -124,29 +303,10 @@
 	        }
 	        const mainContent = document.querySelector('.main-content');
 
-	        // 기존 콘텐츠 삭제
-	        mainContent.innerHTML = '';
-
-	        // 부드러운 화면 전환을 위해 애니메이션 클래스 추가
-	        mainContent.classList.remove('fade-in'); // 기존 애니메이션 제거
-	        void mainContent.offsetWidth; // DOM 리플로우로 강제 리셋
-	        mainContent.classList.add('fade-in'); // 새 애니메이션 적용
-	        	        
-	        let chatHTML = `
-	            <div class="chat-header">
-	                <span class="chat-title">${selectedRoom.userName}</span>
-	                <div class="chat-buttons">
-	                    <button class="chat-btn open-sidebar" onclick="toggleSidebar()">채팅 목록 보기</button>
-	                    <button class="chat-btn" onclick="openModal()">예약하기</button>
-	                    <button class="chat-btn" onclick="openReviewModal()">교환 완료</button>
-	                </div>
-	            </div>
-	            <div class="chat-messages">
-	        `;
-	        
 	        selectedRoom.messages.forEach((message, index) => {
 	            const alignmentClass = message.user ? "message-right" : "message-left";
 	            chatHTML += `
+		        <div class="chat-messages">
 	                <div class="message-${alignmentClass}">
 	                    <div class="bubble">
 	                        <span class="message-text">${message.text}</span>
@@ -155,110 +315,21 @@
 	                </div>
 	            `;
 	        });
-
-	        chatHTML += `
-	            </div>
-	            <div class="chat-input">
-	                <input type="text" placeholder="전송할 메시지를 입력하세요." class="input-box">
-	                <button class="send-btn"><img src="../images/cameraChat.png" alt="CameraIcon"></button>
-	            </div>
-	        `;
 	        
 	        mainContent.innerHTML = chatHTML;
 	    }
-
+	    
+	    function validateForm() {
+	        const chatContent = document.getElementById("chatContent").value.trim();
+	        if (!chatContent) {
+	            alert("메시지를 입력해주세요.");
+	            return false;
+	        }
+	        return true;
+	    }
 	</script>
 </head>
 <body>
-	<%
-	request.setCharacterEncoding("UTF-8");
-	int yourBookId = 0;
-	//내가 교환하고 싶은 책의 아이디
-	int yourBookUserId = 0;
-	//내가 교환하고 싶은 책의 주인의 아이디
-	String yourBookUserName = "이름";
-	//내가 교환하고 싶은 책의 사용자 이름	
-	int myBookId = 0;
-	
-	yourBookId = Integer.parseInt(request.getParameter("yourBookId"));
-	//내가 교환하고 싶은 책의 아이디
-	yourBookUserId = Integer.parseInt(request.getParameter("yourBookUserId"));
-	//내가 교환하고 싶은 책의 주인의 아이디
-	yourBookUserName = request.getParameter("yourBookUserName");
-	//내가 교환하고 싶은 책의 사용자 이름	
-	myBookId = Integer.parseInt(request.getParameter("myBookId"));
-	//내가 교환할 책의 아이디
-	Userbean user = (Userbean) session.getAttribute("user");
-	int userId = user.getId();
-	int allChatCnt = 0;
-	int myChatCnt = 0;
-
-	Connection conn = null;
-	PreparedStatement pstmt = null;
-	ResultSet rs = null;
-
-	String propertiesPath = application.getRealPath("./WEB-INF/db.properties");
-	Properties props = new Properties();
-
-	try (FileInputStream fis = new FileInputStream(propertiesPath)) {
-		props.load(fis);
-	} catch (IOException e) {
-		out.println("<p>DB 설정 파일 읽기 중 오류가 발생했습니다.</p>");
-	}
-
-	String dbURL = props.getProperty("jdbc.url");
-	String dbUser = props.getProperty("jdbc.username");
-	String dbPass = props.getProperty("jdbc.password");
-	
-	
-	try {
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		conn = DriverManager.getConnection(dbURL, dbUser, dbPass);
-
-		String sql = "SELECT count(*) FROM Chat";
-		pstmt = conn.prepareStatement(sql);
-		rs = pstmt.executeQuery();
-
-		if (rs.next()) {
-			allChatCnt = rs.getInt(1);
-		}
-	} catch (Exception e) {
-		e.printStackTrace();
-		out.println("<p>오류 발생: " + e.getMessage() + "</p>");
-	}
-
-	if (allChatCnt == 0) {
-		allChatCnt++;
-	} else {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection(dbURL, dbUser, dbPass);
-
-			String sql = "SELECT count(*) FROM Chat where myBookUserId = ?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, userId);
-			rs = pstmt.executeQuery();
-
-			if (rs.next()) {
-				allChatCnt = rs.getInt(1);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			out.println("<p>오류 발생: " + e.getMessage() + "</p>");
-		}
-		
-		
-	}
-%>
-
-
-
-
-
-
-
-
-
 	<!-- Sidebar -->
 	<div class="sidebar">
 		<img src="../images/logo.png" alt="Logo" class="logo"><span>책이음</span>
@@ -275,23 +346,32 @@
 		<!-- Main Content -->
 		<div class="main-content">
 			<div class="chat-header">
+				<span class="chat-title"><%=yourBookUserName%></span>
 				<div class="chat-buttons">
 					<button class="chat-btn open-sidebar" onclick="toggleSidebar()">채팅
 						목록 보기</button>
+					<button class="chat-btn" onclick="openModal()">예약하기</button>
+					<button class="chat-btn" onclick="openReviewModal()">교환 완료</button>
 				</div>
 			</div>
 			<div class="chat-input">
-				<input type="text" placeholder="전송할 메시지를 입력하세요." class="input-box">
-				<button class="send-btn">
-					<img src="../images/cameraChat.png" alt="CameraIcon">
-				</button>
+				<form action="chat.jsp" method="POST" onSubmit="return validateForm()">
+					<input type="text" name="chatContent" id="chatMessage" placeholder="전송할 메시지를 입력하세요."
+						class="input-box" required>
+					<input type="hidden" name="yourBookId" value="<%=yourBookId%>">
+					<input type="hidden" name="yourBookUserId" value="<%=yourBookUserId%>">
+					<input type="hidden" name="yourBookUserName" value="<%=yourBookUserName%>">
+					<input type="hidden" name="myChatNum" value="<%=myChatNum%>">
+					<input type="hidden" id="myBookId" name="myBookId" value="">
+					<button class="send-btn">전송</button>
+				</form>
 			</div>
 		</div>
 
 		<!-- 예약하기 -->
 		<div class="modal-overlay" id="modalOverlay">
 			<div class="reservation-modal">
-				<h2><%= user %>
+				<h2><%= yourBookUserName %>
 					님과 예약
 				</h2>
 				<div class="modal-content">
@@ -317,7 +397,7 @@
 		<div class="review-modal-overlay" id="reviewModalOverlay">
 			<div class="review-modal">
 				<h2>
-					교환을 완료하시겠습니까?<br><%= user %>
+					교환을 완료하시겠습니까?<br><%= yourBookUserName %>
 					님에 대한 후기를 남겨주세요.
 				</h2>
 				<div class="star-rating">

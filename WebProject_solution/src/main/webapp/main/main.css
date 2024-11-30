@@ -1,13 +1,13 @@
 @font-face {
     font-family: 'NanumBarunGothic';
-    src: url('./fonts/NanumBarunGothicLight.ttf') format('truetype');
+    src: url('../fonts/NanumBarunGothicLight.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'SF_HambakSnow';
-    src: url('./fonts/SF함박눈TTF.ttf') format('truetype');
+    src: url('../fonts/SF함박눈TTF.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -38,11 +38,35 @@ body {
     background-color: #FEF9EB;
     position: fixed;
     height: 100%;
-    padding-top: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 20px;
 }
+
+.sidebar a {
+    text-decoration: none; /* 밑줄 제거 */
+    color: #4a4a4a; /* 기본 텍스트 색상 */
+    display: flex;
+    flex-direction: column; /* 아이콘과 텍스트를 세로로 배치 */
+    align-items: center;
+
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+
+
+.sidebar a img {
+    width: 35px; /* 아이콘 크기 */
+    height: 35px;
+    margin-bottom: 5px; /* 아이콘과 텍스트 간격 */
+}
+
+.sidebar a span {
+    font-size: 14px;
+    text-align: center;
+}
+
 
 .sidebar::after {
     content: "";
@@ -58,34 +82,60 @@ body {
     width: 35px;
     height: 40px;
     margin-bottom: 10px;
+    margin-top: 20px;
 }
+
 
 .sidebar ul {
     list-style: none;
     padding: 0;
-    width: 100%;
-    text-align: center;
-    margin-top: 20px;
+    width: 100%; /* 전체 너비 사용 */
 }
 
 .sidebar ul li {
-    padding: 15px 0;
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* 아이콘과 텍스트를 세로로 배치 */
     align-items: center;
-    font-size: 14px;
+    justify-content: center;
+    margin-top: 10px; /* 항목 간 간격 */
+    margin-bottom: 10px; /* 항목 간 간격 */
     color: #4a4a4a;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    font-size: 14px;
+    transition: color 0.3s ease, background-color 0.3s ease;
 }
 
 .sidebar ul li:hover {
-    background-color: #e8e4d8;
+    background-color: #e8e4d8; /* 호버 시 배경색 변경 */
+    color: #645A5A; /* 텍스트 색 변경 */
+    border-radius: 10px; /* 호버 시 모서리 둥글게 */
+}
+
+/* 링크 기본 스타일 제거 */
+.sidebar ul li a {
+    text-decoration: none; /* 밑줄 제거 */
+    color: inherit; /* 부모의 텍스트 색상 상속 */
+    display: flex;
+    flex-direction: column; /* 아이콘과 텍스트를 세로 배치 */
+    align-items: center;
+}
+
+.sidebar ul li a:hover {
+    color: #645A5A; /* 호버 시 텍스트 색 변경 */
 }
 
 .sidebar ul li img {
-    width: 24px;
-    margin-bottom: 5px;
+	 margin-top: 10px; /* 아이콘과 텍스트 간격 */
+    width: 30px; /* 아이콘 크기 */
+    height: 30px;
+    margin-bottom: 5px; /* 아이콘과 텍스트 간격 */
+}
+
+.sidebar ul li span {
+    font-size: 14px;
+    text-align: center;
+     margin-bottom: 10px;
+    
 }
 
 /* Wrapper to hold main content and right sidebar side by side */
@@ -105,25 +155,47 @@ body {
 }
 
 /* Header */
+/* Header */
 .header {
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
+    justify-content: space-between; /* 요소를 적절히 간격 배치 */
     background-color: #FEF9EB;
+    margin-bottom: 20px;
+    
 }
 
 .header img {
-    width: 30px;
+    width: 25px;
+    height: 25px;
+    margin-right: 10px; /* 검색 아이콘과 입력 필드 간격 */
 }
 
 .header input[type="text"] {
     padding: 10px 15px;
-    width: 400px;
-    border: 1px solid #ddd;
-    border-radius: 20px;
+    width: 500px;
+    border: 1px solid #DDD;
+    border-radius: 30px;
     font-size: 14px;
     outline: none;
     background-color: #FEF9EB;
+    margin-right: 10px; /* 입력 필드와 버튼 간격 */
+}
+
+.header button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 30px;
+    background-color: #645A5A;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 버튼 그림자 */
+    transition: background-color 0.3s ease;
+}
+
+.header button:hover {
+    background-color: #4A4A4A; /* 버튼 호버 효과 */
 }
 
 /* Title */
@@ -145,33 +217,58 @@ h1.title-special {
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* 진한 그림자 설정 */
 }
 
+.login-button{
+	color: #4a4a4a; /* 기본 텍스트 색상 */
+	text-decoration: none;
+}
+
+/* Book Section */
 /* Book Section */
 .book-section {
     margin-top: 30px;
-    width: 800px;
+    display: flex;           /* 가로로 배치 */
+    justify-content: space-between; /* 좌우 끝으로 배치 */
+    align-items: center;     /* 세로 중앙 정렬 (필요 없으면 제거 가능) */
+}
+
+.book-section a {
+    text-decoration: none;  /* 링크 밑줄 제거 */
+    margin-top: 20px;       /* 상단 여백 */
+    margin-bottom: 20px; 
+}
+
+.book-section a img {
+    width: 30px;            /* 아이콘 크기 */
+    height: 30px;
+    margin-right: 20px; 
 }
 
 .book-section h2.new-title {
     font-size: 24px;
     margin-bottom: 10px;
     color: #4a4a4a;
-    text-align: left; /* 왼쪽 정렬 */
 }
+
 
 .books {
     display: flex;
-    gap: 15px;
+    gap: 25px;
     align-items: center;
 }
 
 .book-item {
-    width: 150px;
+    width: 180px;
     text-align: center;
-    font-size: 14px;
+    font-size: 15px;
+     flex-shrink: 0;  /* 크기 축소 방지 */
 }
+
 
 .book-item img {
     width: 100%;
+    height: auto; /* 높이는 자동으로 비율 맞추기 */
+    aspect-ratio: 3 / 4; /* 4:3 비율로 고정 */
+    object-fit: cover; /* 이미지가 영역을 채우도록 함 */
     border-radius: 5px;
 }
 
@@ -195,6 +292,7 @@ h1.title-special {
     border-radius: 10px;
     height: 100vh;
     overflow-y: auto;
+    font-family: 'NanumBarunGothic', sans-serif; /* NanumBarunGothic 폰트 기본 적용 */
 }
 
 .sidebar-right .todaybook{
@@ -256,6 +354,7 @@ h1.title-special {
     max-width: 600px;
     margin: 0 auto;
     margin-bottom: 20px;
+    font-family: 'NanumBarunGothic', sans-serif; /* NanumBarunGothic 폰트 기본 적용 */
 }
 
 .genre-item {
@@ -270,6 +369,7 @@ h1.title-special {
     border: none;
     background: none;
     cursor: pointer;
+    font-family: 'NanumBarunGothic', sans-serif; /* NanumBarunGothic 폰트 기본 적용 */
 }
 
 .genre-item img {

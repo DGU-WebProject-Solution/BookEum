@@ -59,16 +59,16 @@
                     <img src="data:image/jpeg;base64,<%= base64Image1 %>" alt="Book Image 1">
                 </div>
                 <div>
-                <h4>책 제목</h4><br>
+                <h4>책 제목</h4>
                 <%= title %>
 
-                <h4>책 저자</h4><br>
+                <h4>책 저자</h4>
                <%= author %>
 
-                <h4>교환 장소</h4><br>
+                <h4>교환 장소</h4>
                 <%= excPlace %>
 
-                <h4>선호하는 거래방식</h4><br>
+                <h4>선호하는 거래방식</h4>
                 <%= excType %>
             </div></div>
 <%

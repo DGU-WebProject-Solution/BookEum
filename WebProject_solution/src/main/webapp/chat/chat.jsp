@@ -1,13 +1,16 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.util.*" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ page import="java.util.*" import="java.sql.*" import="java.io.*"%>
+<%@ page import="dao.model.userDAO"%>
+<%@ page import="dao.bean.Userbean"%>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Book Exchange</title>
-    <link rel="stylesheet" type="text/css" href="./chat.css">
-    <script type="text/javascript">
+<meta charset="UTF-8">
+<title>Book Exchange</title>
+<link rel="stylesheet" type="text/css" href="./chat.css">
+<script type="text/javascript">
 		function toggleSidebar() {
     		const sidebar = document.querySelector('.sidebar-right');
     		sidebar.classList.toggle('show');
@@ -167,101 +170,205 @@
 	</script>
 </head>
 <body>
-    <!-- Sidebar -->
-    <%String user = "이수민"; %>
-    <div class="sidebar">
-        <img src="../images/logo.png" alt="Logo" class="logo"><span>책이음</span>
-        
-        <ul>
-            <li><img src="../images/sidebar1.png" alt="Search Icon"><span>책찾기</span></li>
-            <li><img src="../images/sidebar2.png" alt="List Icon"><span>책등록</span></li>
-            <li><img src="../images/sidebar3.png" alt="Chat Icon"><span>채팅하기</span></li>
-        </ul>
-    </div>
+	<%
+	request.setCharacterEncoding("UTF-8");
+	int yourBookId = 0;
+	//내가 교환하고 싶은 책의 아이디
+	int yourBookUserId = 0;
+	//내가 교환하고 싶은 책의 주인의 아이디
+	String yourBookUserName = "이름";
+	//내가 교환하고 싶은 책의 사용자 이름	
+	int myBookId = 0;
+	
+	yourBookId = Integer.parseInt(request.getParameter("yourBookId"));
+	//내가 교환하고 싶은 책의 아이디
+	yourBookUserId = Integer.parseInt(request.getParameter("yourBookUserId"));
+	//내가 교환하고 싶은 책의 주인의 아이디
+	yourBookUserName = request.getParameter("yourBookUserName");
+	//내가 교환하고 싶은 책의 사용자 이름	
+	myBookId = Integer.parseInt(request.getParameter("myBookId"));
+	//내가 교환할 책의 아이디
+	Userbean user = (Userbean) session.getAttribute("user");
+	int userId = user.getId();
+	int allChatCnt = 0;
+	int myChatCnt = 0;
 
-    <!-- Main Wrapper to hold content and right sidebar -->
-    <div class="main-wrapper">
-        <!-- Main Content -->
-        <div class="main-content">
-		    <div class="chat-header">
-		        <div class="chat-buttons">
-		            <button class="chat-btn open-sidebar" onclick="toggleSidebar()">채팅 목록 보기</button>
-        		</div>
-    		</div>
-		</div>
+	Connection conn = null;
+	PreparedStatement pstmt = null;
+	ResultSet rs = null;
+
+	String propertiesPath = application.getRealPath("./WEB-INF/db.properties");
+	Properties props = new Properties();
+
+	try (FileInputStream fis = new FileInputStream(propertiesPath)) {
+		props.load(fis);
+	} catch (IOException e) {
+		out.println("<p>DB 설정 파일 읽기 중 오류가 발생했습니다.</p>");
+	}
+
+	String dbURL = props.getProperty("jdbc.url");
+	String dbUser = props.getProperty("jdbc.username");
+	String dbPass = props.getProperty("jdbc.password");
+	
+	
+	try {
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		conn = DriverManager.getConnection(dbURL, dbUser, dbPass);
+
+		String sql = "SELECT count(*) FROM Chat";
+		pstmt = conn.prepareStatement(sql);
+		rs = pstmt.executeQuery();
+
+		if (rs.next()) {
+			allChatCnt = rs.getInt(1);
+		}
+	} catch (Exception e) {
+		e.printStackTrace();
+		out.println("<p>오류 발생: " + e.getMessage() + "</p>");
+	}
+
+	if (allChatCnt == 0) {
+		allChatCnt++;
+	} else {
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection(dbURL, dbUser, dbPass);
+
+			String sql = "SELECT count(*) FROM Chat where myBookUserId = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userId);
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				allChatCnt = rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			out.println("<p>오류 발생: " + e.getMessage() + "</p>");
+		}
 		
+		
+	}
+%>
+
+
+
+
+
+
+
+
+
+	<!-- Sidebar -->
+	<div class="sidebar">
+		<img src="../images/logo.png" alt="Logo" class="logo"><span>책이음</span>
+
+		<ul>
+			<li><img src="../images/sidebar1.png" alt="Search Icon"><span>책찾기</span></li>
+			<li><img src="../images/sidebar2.png" alt="List Icon"><span>책등록</span></li>
+			<li><img src="../images/sidebar3.png" alt="Chat Icon"><span>채팅하기</span></li>
+		</ul>
+	</div>
+
+	<!-- Main Wrapper to hold content and right sidebar -->
+	<div class="main-wrapper">
+		<!-- Main Content -->
+		<div class="main-content">
+			<div class="chat-header">
+				<div class="chat-buttons">
+					<button class="chat-btn open-sidebar" onclick="toggleSidebar()">채팅
+						목록 보기</button>
+				</div>
+			</div>
+			<div class="chat-input">
+				<input type="text" placeholder="전송할 메시지를 입력하세요." class="input-box">
+				<button class="send-btn">
+					<img src="../images/cameraChat.png" alt="CameraIcon">
+				</button>
+			</div>
+		</div>
+
 		<!-- 예약하기 -->
 		<div class="modal-overlay" id="modalOverlay">
-    		<div class="reservation-modal">
-        		<h2><%= user %> 님과 예약</h2>
-	        	<div class="modal-content">
-    	        	<div class="modal-row">
-        	        	<span>날짜</span>
-            	    	<div class="dropdown">
-            	    		<input type=date>
-            	    	</div>
-            		</div>
-	            	<div class="modal-row">
-    	    	        <span>시간</span>
-    		            <div class="dropdown"><input type="time"></div>
-	        	    </div>
-            	<button class="complete-btn" onclick="submitReservation()">완료</button>
-            	<button class="complete-btn" onclick="closeModal()">취소</button>
-            	
-        	</div>
-    	</div>
-	</div>
-	<!-- 교환 완료 -->
-		<div class="review-modal-overlay" id="reviewModalOverlay">
-		    <div class="review-modal">
-    		    <h2>교환을 완료하시겠습니까?<br><%= user %> 님에 대한 후기를 남겨주세요.</h2>
-        		<div class="star-rating">
-            		<span class="star" onclick="setRating(1)">★</span>
-		            <span class="star" onclick="setRating(2)">★</span>
-    		        <span class="star" onclick="setRating(3)">★</span>
-        		    <span class="star" onclick="setRating(4)">★</span>
-            		<span class="star" onclick="setRating(5)">★</span>
-	        	</div>
-    	    	<button class="complete-btn" onclick="submitReview()">후기 보내기</button>
-		        <button class="complete-btn" onclick="closeReviewModal()">취소</button>
-		    </div>
-		</div>
-    </div>
+			<div class="reservation-modal">
+				<h2><%= user %>
+					님과 예약
+				</h2>
+				<div class="modal-content">
+					<div class="modal-row">
+						<span>날짜</span>
+						<div class="dropdown">
+							<input type=date>
+						</div>
+					</div>
+					<div class="modal-row">
+						<span>시간</span>
+						<div class="dropdown">
+							<input type="time">
+						</div>
+					</div>
+					<button class="complete-btn" onclick="submitReservation()">완료</button>
+					<button class="complete-btn" onclick="closeModal()">취소</button>
 
-    <!-- Right Sidebar -->
-    <div class="sidebar-right">
-    
-    	<!-- 로고와 CHAT 문구 들어가야 함 -->
-    	<div class="sidebar-right-header">
-    	    <div class="header-logo">
-        	    <img src="../images/logo.png" alt="Logo"> CHAT
-        	</div>   
-	    	<div class="account">
-        	    <img src="../images/account.png" alt="Account Icon" class="mypage-icon"> 솔루션
-        	</div>     	
-    	</div>
-        
-        <!-- Chat List Section -->
-        <div class="chat-list">
-            <%
+				</div>
+			</div>
+		</div>
+		<!-- 교환 완료 -->
+		<div class="review-modal-overlay" id="reviewModalOverlay">
+			<div class="review-modal">
+				<h2>
+					교환을 완료하시겠습니까?<br><%= user %>
+					님에 대한 후기를 남겨주세요.
+				</h2>
+				<div class="star-rating">
+					<span class="star" onclick="setRating(1)">★</span> <span
+						class="star" onclick="setRating(2)">★</span> <span class="star"
+						onclick="setRating(3)">★</span> <span class="star"
+						onclick="setRating(4)">★</span> <span class="star"
+						onclick="setRating(5)">★</span>
+				</div>
+				<button class="complete-btn" onclick="submitReview()">후기
+					보내기</button>
+				<button class="complete-btn" onclick="closeReviewModal()">취소</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- Right Sidebar -->
+	<div class="sidebar-right">
+
+		<!-- 로고와 CHAT 문구 들어가야 함 -->
+		<div class="sidebar-right-header">
+			<div class="header-logo">
+				<img src="../images/logo.png" alt="Logo"> CHAT
+			</div>
+			<div class="account">
+				<img src="../images/account.png" alt="Account Icon"
+					class="mypage-icon"> ${user.name}
+			</div>
+		</div>
+
+		<!-- Chat List Section -->
+		<div class="chat-list">
+			<%
                 // Sample messages for chat list; replace with dynamic content as needed.
                 String[] lastChats = {"네 그때 뵙겠습니다.", "확인했습니다.", "좋은 하루 되세요!", "감사합니다.", "교환 원합니다."};
                 for (int i = 0; i < lastChats.length; i++) {
             %>
-	            <div class="chat-message" onclick="loadChatRoom(<%=i%>)">
-        	        <div class="profile-image-container">
-            	        <div class="profile-circle">프로필</div>
-                	    <div class="book-rectangle">책 이미지</div>
-	                </div>
-    	            <div class="message-details">
-        	            <div class="message-time">3시간 전</div>
-            	        <div class="message-text"><%= lastChats[i] %></div>
-                	</div>
-            	</div>
-            <%
+			<div class="chat-message" onclick="loadChatRoom(<%=i%>)">
+				<div class="profile-image-container">
+					<div class="profile-circle">프로필</div>
+					<div class="book-rectangle">책 이미지</div>
+				</div>
+				<div class="message-details">
+					<div class="message-time">${yourBookUserName}</div>
+					<div class="message-text"><%= lastChats[i] %></div>
+				</div>
+			</div>
+			<%
                 }
             %>
-        </div>
-    </div>
+		</div>
+	</div>
 </body>
 </html>

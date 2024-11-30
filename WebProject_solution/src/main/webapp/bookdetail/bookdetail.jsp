@@ -5,6 +5,7 @@
 <%@ page import="java.util.Base64" %>
 <%@ page import="dao.model.userDAO" %>
 <%@ page import="dao.bean.Userbean" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,10 +14,86 @@
     <link rel="stylesheet" type="text/css" href="bookdetail.css">
 </head>
 <body>
+
+
 <%
-   session = request.getSession(false);
-   Userbean user = (Userbean) session.getAttribute("user");
+session = request.getSession(false);
+Userbean user = (Userbean) session.getAttribute("user");
+
+Connection conn = null;
+PreparedStatement pstmt = null;
+ResultSet rs = null;
+
+String propertiesPath = application.getRealPath("./WEB-INF/db.properties");
+Properties props = new Properties();
+
+try (FileInputStream fis = new FileInputStream(propertiesPath)) {
+	props.load(fis);
+} catch (IOException e) {
+	out.println("<p>DB 설정 파일 읽기 중 오류가 발생했습니다.</p>");
+}
+
+String dbURL = props.getProperty("jdbc.url");
+String dbUser = props.getProperty("jdbc.username");
+String dbPass = props.getProperty("jdbc.password");
+
+int yourBookId = Integer.parseInt(request.getParameter("idBook"));
+int yourBookUserId = 0;
+String yourBookUserName = "";
+double avgRate = 2.5;
+int intAvgRate = (int) Math.round(avgRate);
+
+try {
+	Class.forName("com.mysql.cj.jdbc.Driver");
+	conn = DriverManager.getConnection(dbURL, dbUser, dbPass);
+
+	String sql = "SELECT id FROM Book WHERE idBook = ?";
+	pstmt = conn.prepareStatement(sql);
+	pstmt.setInt(1, yourBookId);
+	rs = pstmt.executeQuery();
+
+	if (rs.next()) {
+		yourBookUserId = rs.getInt("id");
+	}
+} catch (Exception e) {
+	e.printStackTrace();
+	out.println("<p>오류 발생: " + e.getMessage() + "</p>");
+} finally {
+	try {
+		if (rs != null)
+			rs.close();
+		if (pstmt != null)
+			pstmt.close();
+		if (conn != null)
+			conn.close();
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
+}
+
+try{
+	Class.forName("com.mysql.cj.jdbc.Driver");
+	conn = DriverManager.getConnection(dbURL, dbUser, dbPass);
+
+	String sql = "select name, avgRate from User where id = ?";
+	pstmt = conn.prepareStatement(sql);
+	pstmt.setInt(1, yourBookUserId);
+	rs = pstmt.executeQuery();
+	if (rs.next()){
+		yourBookUserName = rs.getString("name");
+		avgRate = rs.getDouble("avgRate");
+		intAvgRate = (int)Math.round(avgRate);
+	}
+}  catch (Exception e) {
+	e.printStackTrace();
+	yourBookUserName = "asdf";
+}
+
+
 %>
+
+
+
     <!-- Sidebar -->
     <div class="sidebar">
     <a href="../main/main.jsp"><img src="../images/logo.png" alt="Logo" class="logo"><span>책이음</span></a>
@@ -44,24 +121,11 @@
         <!-- Main Content -->
         <div class="main-content">
             <%
-                Connection conn = null;
-                PreparedStatement pstmt = null;
-                ResultSet rs = null;
-
-                String propertiesPath = application.getRealPath("./WEB-INF/db.properties");
-                Properties props = new Properties();
-
                 try (FileInputStream fis = new FileInputStream(propertiesPath)) {
                     props.load(fis);
                 } catch (IOException e) {
                     out.println("<p>DB 설정 파일 읽기 중 오류가 발생했습니다.</p>");
                 }
-
-                String dbURL = props.getProperty("jdbc.url");
-                String dbUser = props.getProperty("jdbc.username");
-                String dbPass = props.getProperty("jdbc.password");
-
-                int bookId = Integer.parseInt(request.getParameter("idBook"));
 
                 try {
                     Class.forName("com.mysql.cj.jdbc.Driver");
@@ -69,7 +133,7 @@
 
                     String sql = "SELECT * FROM Book WHERE idBook = ?";
                     pstmt = conn.prepareStatement(sql);
-                    pstmt.setInt(1, bookId);
+                    pstmt.setInt(1, yourBookId);
                     rs = pstmt.executeQuery();
 
                     if (rs.next()) {
@@ -127,24 +191,24 @@
     </div>
 
     <!-- Right Sidebar -->
-    <div class="sidebar-right">
-                 <div class="account">
-        <% if (user != null) { %>
-            <a href="../User/mypage.jsp">
-                <img src="../images/account.png" alt="Account Icon">
-            </a> ${user.name} 님 환영합니다
-        <% } else { %>
-            <img src="../images/account.png" alt="Account Icon">
-            <a href="../User/login.jsp" class="login-button">로그인하기</a>
-        <% } %>
-    </div>
-        
-   <div class="my-book">
-    <div class="dropdown-wrapper">
-        <h2>내가 교환할 책</h2>
-        <select id="bookDropdown" class="dropdown">
-            <option value="" disabled selected>▼</option>
-            <%  
+	<div class="sidebar-right">
+		<div class="account">
+			<% if (user != null) { %>
+			<a href="../User/mypage.jsp"> <img src="../images/account.png"
+				alt="Account Icon">
+			</a> ${user.name} 님 환영합니다
+			<% } else { %>
+			<img src="../images/account.png" alt="Account Icon"> <a
+				href="../User/login.jsp" class="login-button">로그인하기</a>
+			<% } %>
+		</div>
+
+		<div class="my-book">
+			<div class="dropdown-wrapper">
+				<h2>내가 교환할 책</h2>
+				<select id="bookDropdown" class="dropdown">
+					<option value="" disabled selected>▼</option>
+					<%  
                 try {
                     Class.forName("com.mysql.cj.jdbc.Driver");
                     conn = DriverManager.getConnection(dbURL, dbUser, dbPass);
@@ -158,8 +222,8 @@
                         int idBook = rs.getInt("idBook");
                         String bookTitle = rs.getString("title");
             %>
-                        <option value="<%= idBook %>"><%= bookTitle %></option>
-            <%
+					<option value="<%= idBook %>"><%= bookTitle %></option>
+					<%
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -169,16 +233,16 @@
                     try { if (conn != null) conn.close(); } catch (SQLException e) { e.printStackTrace(); }
                 }
             %>
-        </select>
-    </div>
+				</select>
+			</div>
 
-    <!-- 책 상세 정보 표시 영역 -->
-    <div id="bookDetails">
-        <p>책을 선택하면 상세 정보가 여기에 표시됩니다.</p>
-    </div>
-</div>
+			<!-- 책 상세 정보 표시 영역 -->
+			<div id="bookDetails">
+				<p>책을 선택하면 상세 정보가 여기에 표시됩니다.</p>
+			</div>
+		</div>
 
-<script>
+		<script>
     document.getElementById("bookDropdown").addEventListener("change", function () {
         var selectedBookId = this.value;
 
@@ -188,6 +252,7 @@
             .then(data => {
                 // bookDetails 영역에 서버 응답 데이터 표시
                 document.getElementById("bookDetails").innerHTML = data;
+                document.getElementById("myBookId").value = selectedBookId;
             })
             .catch(error => {
                 console.error("Error fetching book details:", error);
@@ -195,25 +260,29 @@
     });
 </script>
 
-      
-            <div class="book-button">
-                  <button class="chat-button" onclick="location.href='../chat/chat.jsp';">
-        채팅하기
-    </button>
-            </div>
-        </div>
-    </div>
 
-    <!-- Popup Section -->
+		<div class="book-button">
+			<form action="../chat/chat.jsp" method="POST">
+				<input type="hidden" name="yourBookId" value="<%=yourBookId%>">
+				<input type="hidden" name="yourBookUserId" value="<%=yourBookUserId%>">
+				<input type="hidden" name="yourBookUserName" value="<%=yourBookUserName%>">
+				<input type="hidden" id="myBookId" name="myBookId" value="">
+				<input class = "chat-button" type="submit" value="채팅하기">
+			</form>
+		</div>
+	</div>
+	</div>
+
+	<!-- Popup Section -->
     <div id="popup" class="popup-overlay">
         <div class="popup-content">
             <a href="#" class="close-button">&times;</a>
             <img src="../images/review.png" alt="User Image">
-            <p>솔루션 님</p>
+            <p><%= yourBookUserName%> 님</p>
             <div class="stars">
                 ★★★★☆
             </div>
-            <p>평균 평점: 4.3</p>
+            <p>평균 평점: <%= avgRate%></p>
         </div>
     </div>
 </body>

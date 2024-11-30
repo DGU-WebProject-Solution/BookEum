@@ -1,4 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*" %>
+<%@ page import="java.util.*" %>
+<%@ page import="java.io.*" %>
+<%@ page import="dao.model.userDAO" %>
+<%@ page import="dao.bean.Userbean" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,27 +12,32 @@
     <link rel="stylesheet" type="text/css" href="booksearch.css">
 </head>
 <body>
-    <!-- Sidebar -->
+<%
+	session = request.getSession(false);
+	Userbean user = (Userbean) session.getAttribute("user");
+%>
     <div class="sidebar">
         <img src="./images/logo.png" alt="Logo" class="logo"><span>책이음</span>
-        
         <ul>
-            <li><img src="./images/sidebar1.png" alt="Search Icon"><span>책찾기</span></li>
-            <li><img src="./images/sidebar2.png" alt="List Icon"><span>책등록</span></li>
-            <li><img src="./images/sidebar3.png" alt="Chat Icon"><span>채팅하기</span></li>
+            <li><a href="./booksearch.jsp"><img src="./images/sidebar1.png" alt="Search Icon"><span>책찾기</span></a></li>
+            <li><a href="./bookregister.jsp"><img src="./images/sidebar2.png" alt="List Icon"><span>책등록</span></a></li>
+            <li><a href="./chat.jsp"><img src="./images/sidebar3.png" alt="Chat Icon"><span>채팅하기</span></a></li>
         </ul>
     </div>
 
-    <!-- Main Content Wrapper -->
     <div class="main-wrapper">
-        <!-- User Account Welcome Message at the top-right -->
-        <div class="account">
-            <img src="./images/account.png" alt="Account Icon"> 솔루션 님 환영합니다
-        </div>
+          <div class="account">
+        <% if (user != null) { %>
+            <a href="http://localhost:8080/WebProject_solution/User/mypage.jsp">
+                <img src="../images/account.png" alt="Account Icon">
+            </a> ${user.name} 님 환영합니다
+        <% } else { %>
+            <img src="../images/account.png" alt="Account Icon">
+            <a href="http://localhost:8080/WebProject_solution/User/login.jsp" class="login-button">로그인하기</a>
+        <% } %>
+    </div>
         
-        <!-- Filters and Book Grid -->
         <div class="content-area">
-            <!-- Filters -->
             <div class="filters">
                 <select class="filter-dropdown">
                     <option value="">장르</option>
@@ -47,159 +57,80 @@
                 <button class="filter-button search-button">🔍</button>
             </div>
             
-            <!-- Book Grid -->
             <div class="book-grid">
-                <div class="book-card">
-                    <img src="./images/booksample.png" alt="Book Image">
+    <%
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        String propertiesPath = application.getRealPath("./WEB-INF/db.properties");
+        Properties props = new Properties();
+
+        try (FileInputStream fis = new FileInputStream(propertiesPath)) {
+            props.load(fis);
+        } catch (IOException e) {
+            out.println("<p>DB 설정 파일 읽기 중 오류가 발생했습니다.</p>");
+        }
+
+        String dbURL = props.getProperty("jdbc.url");
+        String dbUser = props.getProperty("jdbc.username");
+        String dbPass = props.getProperty("jdbc.password");
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection(dbURL, dbUser, dbPass);
+
+            String sql = "SELECT idBook, image1, title, author, excPlace FROM Book";
+            pstmt = conn.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                int bookId = rs.getInt("idBook");
+                Blob imageBlob = rs.getBlob("image1");
+                String title = rs.getString("title");
+                String author = rs.getString("author");
+                String excPlace = rs.getString("excPlace");
+
+                String base64Image = null;
+                if (imageBlob != null) {
+                    InputStream inputStream = imageBlob.getBinaryStream();
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    byte[] buffer = new byte[4096];
+                    int bytesRead;
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytesRead);
+                    }
+                    byte[] imageBytes = outputStream.toByteArray();
+                    base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                    inputStream.close();
+                    outputStream.close();
+                }
+    %>
+                <a href="../bookdetail/bookdetail.jsp?idBook=<%= bookId %>" class="book-card">
+                    <img src="data:image/jpeg;base64,<%= base64Image != null ? base64Image : "" %>" alt="Book Image">
                     <div class="book-info">
-                        <h3>모순</h3>
-                        <p>양귀자</p>
-                        <p>서울특별시 노원구</p>
+                        <h3><%= title %></h3>
+                        <p><%= author %></p>
+                        <p><%= excPlace %></p>
                     </div>
-                </div>
-                <div class="book-card">
-                    <img src="./images/booksample.png" alt="Book Image">
-                    <div class="book-info">
-                        <h3>악마는 법정에 서지 않는다</h3>
-                        <p>양귀자</p>
-                        <p>서울특별시 노원구</p>
-                    </div>
-                </div>
-                <!-- 추가적인 책 카드 예시 -->
-                <div class="book-card">
-                    <img src="./images/booksample.png" alt="Book Image">
-                    <div class="book-info">
-                        <h3>돈의 속성</h3>
-                        <p>저자명</p>
-                        <p>서울특별시 노원구</p>
-                    </div>
-                </div>
-                <div class="book-card">
-                    <img src="./images/booksample.png" alt="Book Image">
-                    <div class="book-info">
-                        <h3>모순</h3>
-                        <p>양귀자</p>
-                        <p>서울특별시 노원구</p>
-                    </div>
-                </div>
-                <div class="book-card">
-                    <img src="./images/booksample.png" alt="Book Image">
-                    <div class="book-info">
-                        <h3>악마는 법정에 서지 않는다</h3>
-                        <p>양귀자</p>
-                        <p>서울특별시 노원구</p>
-                    </div>
-                </div>
-                <!-- 추가적인 책 카드 예시 -->
-                <div class="book-card">
-                    <img src="./images/booksample.png" alt="Book Image">
-                    <div class="book-info">
-                        <h3>돈의 속성</h3>
-                        <p>저자명</p>
-                        <p>서울특별시 노원구</p>
-                    </div>
-                </div>
-                <div class="book-card">
-                    <img src="./images/booksample.png" alt="Book Image">
-                    <div class="book-info">
-                        <h3>모순</h3>
-                        <p>양귀자</p>
-                        <p>서울특별시 노원구</p>
-                    </div>
-                </div>
-                <div class="book-card">
-                    <img src="./images/booksample.png" alt="Book Image">
-                    <div class="book-info">
-                        <h3>악마는 법정에 서지 않는다</h3>
-                        <p>양귀자</p>
-                        <p>서울특별시 노원구</p>
-                    </div>
-                </div>
-                <!-- 추가적인 책 카드 예시 -->
-                <div class="book-card">
-                    <img src="./images/booksample.png" alt="Book Image">
-                    <div class="book-info">
-                        <h3>돈의 속성</h3>
-                        <p>저자명</p>
-                        <p>서울특별시 노원구</p>
-                    </div>
-                </div>
-                <div class="book-card">
-                    <img src="./images/booksample.png" alt="Book Image">
-                    <div class="book-info">
-                        <h3>모순</h3>
-                        <p>양귀자</p>
-                        <p>서울특별시 노원구</p>
-                    </div>
-                </div>
-                <div class="book-card">
-                    <img src="./images/booksample.png" alt="Book Image">
-                    <div class="book-info">
-                        <h3>악마는 법정에 서지 않는다</h3>
-                        <p>양귀자</p>
-                        <p>서울특별시 노원구</p>
-                    </div>
-                </div>
-                <!-- 추가적인 책 카드 예시 -->
-                <div class="book-card">
-                    <img src="./images/booksample.png" alt="Book Image">
-                    <div class="book-info">
-                        <h3>돈의 속성</h3>
-                        <p>저자명</p>
-                        <p>서울특별시 노원구</p>
-                    </div>
-                </div>
-                <div class="book-card">
-                    <img src="./images/booksample.png" alt="Book Image">
-                    <div class="book-info">
-                        <h3>모순</h3>
-                        <p>양귀자</p>
-                        <p>서울특별시 노원구</p>
-                    </div>
-                </div>
-                <div class="book-card">
-                    <img src="./images/booksample.png" alt="Book Image">
-                    <div class="book-info">
-                        <h3>악마는 법정에 서지 않는다</h3>
-                        <p>양귀자</p>
-                        <p>서울특별시 노원구</p>
-                    </div>
-                </div>
-                <!-- 추가적인 책 카드 예시 -->
-                <div class="book-card">
-                    <img src="./images/booksample.png" alt="Book Image">
-                    <div class="book-info">
-                        <h3>돈의 속성</h3>
-                        <p>저자명</p>
-                        <p>서울특별시 노원구</p>
-                    </div>
-                </div>
-                <div class="book-card">
-                    <img src="./images/booksample.png" alt="Book Image">
-                    <div class="book-info">
-                        <h3>모순</h3>
-                        <p>양귀자</p>
-                        <p>서울특별시 노원구</p>
-                    </div>
-                </div>
-                <div class="book-card">
-                    <img src="./images/booksample.png" alt="Book Image">
-                    <div class="book-info">
-                        <h3>악마는 법정에 서지 않는다</h3>
-                        <p>양귀자</p>
-                        <p>서울특별시 노원구</p>
-                    </div>
-                </div>
-                <!-- 추가적인 책 카드 예시 -->
-                <div class="book-card">
-                    <img src="./images/booksample.png" alt="Book Image">
-                    <div class="book-info">
-                        <h3>돈의 속성</h3>
-                        <p>저자명</p>
-                        <p>서울특별시 노원구</p>
-                    </div>
-                </div>
-            </div>
+                </a>
+    <%
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            out.println("<p>오류 발생: " + e.getMessage() + "</p>");
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    %>
+</div>
+
         </div>
     </div>
 </body>

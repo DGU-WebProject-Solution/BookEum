@@ -15,20 +15,20 @@
 %>
 <!-- Sidebar -->
 <div class="sidebar">
-    <a href="http://localhost:8080/WebProject_solution/main/main.jsp"><img src="../images/logo.png" alt="Logo" class="logo"><span>책이음</span></a>
+    <a href="../main/main.jsp"><img src="../images/logo.png" alt="Logo" class="logo"><span>책이음</span></a>
     <ul>
         <li>
-            <a href="http://localhost:8080/WebProject_solution/booksearch/booksearch.jsp">
+            <a href="../booksearch/booksearch.jsp">
                 <img src="../images/sidebar1.png" alt="Search Icon"><span>책찾기</span>
             </a>
         </li>
         <li>
-            <a href="http://localhost:8080/WebProject_solution/bookregister/bookregister.jsp">
+            <a href="../bookregister/bookregister.jsp">
                 <img src="../images/sidebar2.png" alt="List Icon"><span>책등록</span>
             </a>
         </li>
         <li>
-            <a href="http://localhost:8080/WebProject_solution/chat/chat.jsp">
+            <a href="../chat/chat.jsp">
                 <img src="../images/sidebar3.png" alt="Chat Icon"><span>채팅하기</span>
             </a>
         </li>
@@ -49,9 +49,9 @@
         <h1 class="title-special">Happy reading,<br>Sweat dream</h1>
         <p>나만의 책을 찾고, 당신의 책을 나누세요. <br>간단한 교환으로 새로운 이야기가 시작됩니다.</p>
            <% if (user != null) { %>
-            <a href="http://localhost:8080/WebProject_solution/User/logout.jsp" class="login">로그아웃하기</a>
+            <a href="../User/logout.jsp" class="login">로그아웃하기</a>
         <% } else { %>
-             <a href="http://localhost:8080/WebProject_solution/User/login.jsp" class="login">로그인하기</a>
+             <a href="../User/login.jsp" class="login">로그인하기</a>
         <% } %>
       
 
@@ -93,12 +93,12 @@
 <div class="sidebar-right">
     <div class="account">
         <% if (user != null) { %>
-            <a href="http://localhost:8080/WebProject_solution/User/mypage.jsp">
+            <a href="../User/mypage.jsp">
                 <img src="../images/account.png" alt="Account Icon">
             </a> ${user.name} 님 환영합니다
         <% } else { %>
             <img src="../images/account.png" alt="Account Icon">
-            <a href="http://localhost:8080/WebProject_solution/User/login.jsp" class="login-button">로그인하기</a>
+            <a href="../User/login.jsp" class="login-button">로그인하기</a>
         <% } %>
     </div>
     

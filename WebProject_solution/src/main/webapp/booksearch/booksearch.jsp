@@ -28,12 +28,12 @@
     <div class="main-wrapper">
           <div class="account">
         <% if (user != null) { %>
-            <a href="http://localhost:8080/WebProject_solution/User/mypage.jsp">
+            <a href="../User/mypage.jsp">
                 <img src="../images/account.png" alt="Account Icon">
             </a> ${user.name} 님 환영합니다
         <% } else { %>
             <img src="../images/account.png" alt="Account Icon">
-            <a href="http://localhost:8080/WebProject_solution/User/login.jsp" class="login-button">로그인하기</a>
+            <a href="../User/login.jsp" class="login-button">로그인하기</a>
         <% } %>
     </div>
         

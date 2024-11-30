@@ -14,12 +14,12 @@
 
     if (session != null) {
         session.invalidate();
-        response.sendRedirect("../main.jsp");
+        response.sendRedirect("../main/main.jsp");
     } else {
     	%>
     	<script type="text/javascript">
 			alert("이미 로그아웃이 완료되었습니다.");
-			window.location.href = "../main.jsp";
+			window.location.href = "../main/main.jsp";
 		</script>
 		<%
     }

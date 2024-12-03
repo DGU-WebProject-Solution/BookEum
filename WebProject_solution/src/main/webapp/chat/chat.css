@@ -22,18 +22,41 @@ body {
     padding: 0;
     overflow-y: hidden;
 }
-
 /* Sidebar */
 .sidebar {
     width: 100px;
     background-color: #FEF9EB;
     position: fixed;
     height: 100%;
-    padding-top: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 20px;
 }
+
+.sidebar a {
+    text-decoration: none; /* 밑줄 제거 */
+    color: #4a4a4a; /* 기본 텍스트 색상 */
+    display: flex;
+    flex-direction: column; /* 아이콘과 텍스트를 세로로 배치 */
+    align-items: center;
+
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+
+
+.sidebar a img {
+    width: 35px; /* 아이콘 크기 */
+    height: 35px;
+    margin-bottom: 5px; /* 아이콘과 텍스트 간격 */
+}
+
+.sidebar a span {
+    font-size: 14px;
+    text-align: center;
+}
+
 
 .sidebar::after {
     content: "";
@@ -49,34 +72,60 @@ body {
     width: 35px;
     height: 40px;
     margin-bottom: 10px;
+    margin-top: 20px;
 }
+
 
 .sidebar ul {
     list-style: none;
     padding: 0;
-    width: 100%;
-    text-align: center;
-    margin-top: 20px;
+    width: 100%; /* 전체 너비 사용 */
 }
 
 .sidebar ul li {
-    padding: 15px 0;
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* 아이콘과 텍스트를 세로로 배치 */
     align-items: center;
-    font-size: 14px;
+    justify-content: center;
+    margin-top: 10px; /* 항목 간 간격 */
+    margin-bottom: 10px; /* 항목 간 간격 */
     color: #4a4a4a;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    font-size: 14px;
+    transition: color 0.3s ease, background-color 0.3s ease;
 }
 
 .sidebar ul li:hover {
-    background-color: #e8e4d8;
+    background-color: #e8e4d8; /* 호버 시 배경색 변경 */
+    color: #645A5A; /* 텍스트 색 변경 */
+    border-radius: 10px; /* 호버 시 모서리 둥글게 */
+}
+
+/* 링크 기본 스타일 제거 */
+.sidebar ul li a {
+    text-decoration: none; /* 밑줄 제거 */
+    color: inherit; /* 부모의 텍스트 색상 상속 */
+    display: flex;
+    flex-direction: column; /* 아이콘과 텍스트를 세로 배치 */
+    align-items: center;
+}
+
+.sidebar ul li a:hover {
+    color: #645A5A; /* 호버 시 텍스트 색 변경 */
 }
 
 .sidebar ul li img {
-    width: 24px;
-    margin-bottom: 5px;
+	 margin-top: 10px; /* 아이콘과 텍스트 간격 */
+    width: 30px; /* 아이콘 크기 */
+    height: 30px;
+    margin-bottom: 5px; /* 아이콘과 텍스트 간격 */
+}
+
+.sidebar ul li span {
+    font-size: 14px;
+    text-align: center;
+     margin-bottom: 10px;
+    
 }
 
 /* Wrapper to hold main content and right sidebar side by side */
@@ -157,37 +206,41 @@ body {
     margin-top: 40px;
 }
 
-.message {
-    display: flex;
-    align-items: center;
-}
-
 .message-left {
+	display:flex;
     justify-content: flex-start;
 }
 
 .message-right {
+    display:flex;
     justify-content: flex-end;
 }
 
 .bubble {
-    max-width: 70%;
+	display:flex;
+	max-width: 70%;
     padding: 10px 15px;
     background-color: #645A5A;
     color: #E3DBC4;
     border-radius: 15px;
     position: relative;
+    flex-direction: column;
 }
 
 /* Different styles for message alignment */
 .message-left .bubble {
+    justify-content: flex-start;
     background-color: #E3DBC4;
     color: #645A5A;
 }
 
 .message-right .bubble {
+    justify-content: flex-end;
     background-color: #645A5A;
     color: #E3DBC4;
+}
+.message-text {
+	display:flex;
 }
 
 .message-time {
@@ -207,7 +260,11 @@ body {
     bottom:0px;
     width: calc(100% - 670px);
 }
-
+.form-input{
+	display: flex;
+	width: calc(100%);
+	gap: 20px;
+}
 .input-box {
     flex: 1;
     padding: 10px;
@@ -219,7 +276,6 @@ body {
 .send-btn {
     background: #645A5A;
     color: #ffffff;
-    margin-left: 10px;
     cursor: pointer;
     width: 40px;
     height: 40px;
@@ -293,77 +349,67 @@ body {
 
 /* 채팅방 목록 */
 .chat-list {
+	display: flex;
+	flex-direction: column;
     background-color:white;
-    margin-bottom: 32px;
+    height: calc(100vh - 64px);
 }
 
 .chat-message {
 	cursor: pointer;
     display: flex;
-    align-items: center;
-    gap: 24px;
     padding: 12px;
     background-color: #FEF9EB80;
     margin-top: 8px;
     border-radius: 8px;
     box-shadow: 2px 2px 4px #00000020;
+    position: relative;
+    width : 96%;
+    border: none;
+    align-items: center;
 }
-.chat-message:active{
-	transform: scale(0.96);
+.chat-message:active,
+.chat-message:hover{
+	transform: scale(0.98);
 	transition: transform 0.1s ease;
 }
-
+.chat-inner{
+	display: flex;
+	background-color: transparent;
+	border: none;
+	align-items: center;
+	gap : 20px;
+	font-family: 'NanumBarunGothic';
+	width : 100%;
+}
 .profile-image-container {
     position: relative;
-    width: 60px;
-    height: 60px;
-}
-
-.profile-circle {
-    width: 48px;
-    height: 48px;
-    background-color: #d9d9d9;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 8px;
-    color: black;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 0;
+    background-color: #d9d9d9;
+    font-size: 10px;
 }
 
-.book-rectangle {
-    width: 40px;
-    height: 48px;
-    background-color: #bbb;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 8px;
-    color: #333;
-    position: absolute;
-    top: 12px;
-    left: 20px;
-    z-index: 1;
-    border-radius: 2px;
-    
-}
 .message-details {
     display: flex;
     flex-direction: column;
     color: black;
-    padding-bottom:4px;
+    justify-content: center;
 }
 
 .message-time {
     font-size: 12px;
+    display:flex;
+    left: 0;
 }
 
 .message-text {
     font-size: 16px;
+    display:flex;
 }
 
 /* 작은 화면에서 right-sidebar 숨기기 */
@@ -522,5 +568,8 @@ body {
 
 /* main-content의 애니메이션 클래스 */
 .main-content.fade-in {
-    animation: fadeIn 0.5s ease-out;
+    animation: fadeIn 0.5s ease-in;
+}
+.chat-messages.fade-in {
+	animation: fadeIn 0.5s ease-in;
 }

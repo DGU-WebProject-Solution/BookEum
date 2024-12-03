@@ -82,7 +82,6 @@ try {
    }
 } catch (Exception e) {
    e.printStackTrace();
-   yourBookUserName = "asdf";
 }
 
 %>
@@ -314,14 +313,56 @@ try {
     }
 %>
 
-<% if (isBookRegistered) { %>
+<%
+if (isBookRegistered) { 
+	int roomId = 0;
+	try {
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		conn = DriverManager.getConnection(dbURL, dbUser, dbPass);
+
+		String sql = "SELECT roomId " + "FROM Chat " + "WHERE (myBookUserId = ? AND yourBookUserId = ?) "
+		+ "   OR (myBookUserId = ? AND yourBookUserId = ?)";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setInt(1, user.getId()); // 첫 번째 조건의 myBookUserId
+		pstmt.setInt(2, yourBookUserId); // 첫 번째 조건의 yourBookUserId
+		pstmt.setInt(3, yourBookUserId); // 두 번째 조건의 myBookUserId
+		pstmt.setInt(4, user.getId()); // 두 번째 조건의 yourBookUserId
+		rs = pstmt.executeQuery();
+
+		if (rs.next()) {
+			roomId = rs.getInt("roomId");
+		}
+	} catch (Exception e) {
+		e.printStackTrace();
+		out.println("<p>오류 발생: " + e.getMessage() + "</p>");
+	}
+	if (roomId == 0) {
+		try {
+	Class.forName("com.mysql.cj.jdbc.Driver");
+	conn = DriverManager.getConnection(dbURL, dbUser, dbPass);
+
+	String sql = "SELECT count(*) FROM Chat";
+	pstmt = conn.prepareStatement(sql);
+	rs = pstmt.executeQuery();
+
+	if (rs.next()) {
+		roomId = rs.getInt(1);
+		roomId++;
+	} else {
+		roomId = 1;
+	}
+		} catch (Exception e) {
+	e.printStackTrace();
+	out.println("<p>오류 발생: " + e.getMessage() + "</p>");
+		}
+	}
+	//여기까지가 방번호 설정하는 부분 db에선 roomId, 코드에서는 myChatNum
+%>
     <!-- 책이 등록되었을 때 "채팅하기" 버튼 표시 -->
           <div class="book-button">
          <form action="../chat/chat.jsp" method="POST">
-            <input type="hidden" name="yourBookId" value="<%=yourBookId%>">
             <input type="hidden" name="yourBookUserId" value="<%=yourBookUserId%>">
-            <input type="hidden" name="yourBookUserName" value="<%=yourBookUserName%>">
-            <input type="hidden" id="myBookId" name="myBookId" value="">
+            <input type="hidden" name="roomId" value="<%=roomId%>">
             <input class = "chat-button" type="submit" value="채팅하기">
          </form>
       </div>

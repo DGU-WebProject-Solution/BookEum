@@ -119,8 +119,9 @@
                     String gungu = request.getParameter("gungu");
 
                     String sql = "SELECT b.idBook, b.image1, b.title, b.author, b.excPlace " +
-                                 "FROM Book b " +
-                                 "INNER JOIN Genre g ON b.genreId = g.genreId WHERE 1=1";
+                            "FROM Book b " +
+                            "LEFT JOIN ExchangedBook eb ON b.idBook = eb.idBook " +
+                            "WHERE eb.idBook IS NULL "; // 교환된 책 제외
 
                     List<Object> parameters = new ArrayList<>();
 
@@ -144,7 +145,8 @@
                         sql += " AND b.excPlace LIKE ?";
                         parameters.add("%" + gungu + "%");
                     }
-
+                    sql += " ORDER BY b.idBook DESC"; // 최신 등록 순으로 정렬
+                    
                     try {
                         Class.forName("com.mysql.cj.jdbc.Driver");
                         conn = DriverManager.getConnection(dbURL, dbUser, dbPass);

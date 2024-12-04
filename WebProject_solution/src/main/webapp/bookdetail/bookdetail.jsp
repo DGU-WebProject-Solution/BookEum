@@ -394,20 +394,16 @@ if (isBookRegistered) {
         <p><%= yourBookUserName %> 님</p>
 
         <div class="stars">
-            <% 
-                int roundedRate = (int) Math.round(avgRate); // 평균 평점에 맞춰 별점 계산
-                for (int i = 1; i <= 5; i++) {
-                    if (i <= roundedRate) {
-            %>
-                        ★
-            <% 
-                    } else {
-            %>
-                        ☆
-            <% 
-                    }
-                }
-            %>
+               <%
+                            int starRateInt = (int) avgRate; // 평균 평점을 정수로 변환
+                            for (int i = 0; i < 5; i++) {
+                                if (i < starRateInt) {
+                                    out.print("⭐");
+                                } else {
+                                    out.print("☆");
+                                }
+                            }
+                        %>
         </div>
         
         <p>평균 평점: <%= avgRate %></p> <!-- avgRate 값 표시 -->

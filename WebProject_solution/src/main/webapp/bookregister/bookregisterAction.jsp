@@ -25,17 +25,12 @@
         return;
     }
 
-    String saveFolder = application.getRealPath("uploadimgs"); // 업로드 폴더 경로
+    String saveFolder = application.getRealPath("uploadimgs");
     File folder = new File(saveFolder);
-    if (!folder.exists()) folder.mkdirs(); // 폴더가 없으면 생성
+    if (!folder.exists()) folder.mkdirs();
 
-    String title = null;
-    String author = null;
-    String genreId = null;
-    String stateInfo = null;
-    String excCondition = null;
-    String excPlace = null;
-    String excType = null;
+    String title = null, author = null, genreId = null, stateInfo = null;
+    String excCondition = null, excPlace = null, excType = null;
     String image1 = null, image2 = null, image3 = null;
 
     try {
@@ -47,19 +42,27 @@
         excCondition = multi.getParameter("excCondition");
         excPlace = multi.getParameter("excPlace");
         excType = multi.getParameter("excType");
-
         image1 = multi.getFilesystemName("image1");
         image2 = multi.getFilesystemName("image2");
         image3 = multi.getFilesystemName("image3");
 
+        // 필수 항목 확인
+        if (title == null || title.isEmpty() ||
+            author == null || author.isEmpty() ||
+            genreId == null || genreId.isEmpty() ||
+            stateInfo == null || stateInfo.isEmpty() ||
+            excCondition == null || excCondition.isEmpty() ||
+            excPlace == null || excPlace.isEmpty() ||
+            excType == null || excType.isEmpty() ||
+            image1 == null || image1.isEmpty() ||
+            image2 == null || image2.isEmpty() ||
+            image3 == null || image3.isEmpty()) {
+            out.println("<script>alert('모든 항목을 입력해주셔야 등록이 가능합니다.'); history.back();</script>");
+            return;
+        }
     } catch (IOException e) {
         e.printStackTrace();
         out.println("<p>파일 업로드 처리 중 오류가 발생했습니다.</p>");
-        return;
-    }
-
-    if (title == null || title.isEmpty() || author == null || author.isEmpty()) {
-        out.println("<p>필수 항목이 누락되었습니다.</p>");
         return;
     }
 
@@ -110,30 +113,15 @@
         pstmt.setString(6, excCondition);
         pstmt.setString(7, excPlace);
         pstmt.setString(8, excType);
-
-        if (image1 != null) {
-            pstmt.setBlob(9, new FileInputStream(new File(saveFolder, image1)));
-        } else {
-            pstmt.setNull(9, Types.BLOB);
-        }
-        if (image2 != null) {
-            pstmt.setBlob(10, new FileInputStream(new File(saveFolder, image2)));
-        } else {
-            pstmt.setNull(10, Types.BLOB);
-        }
-        if (image3 != null) {
-            pstmt.setBlob(11, new FileInputStream(new File(saveFolder, image3)));
-        } else {
-            pstmt.setNull(11, Types.BLOB);
-        }
+        pstmt.setBlob(9, new FileInputStream(new File(saveFolder, image1)));
+        pstmt.setBlob(10, new FileInputStream(new File(saveFolder, image2)));
+        pstmt.setBlob(11, new FileInputStream(new File(saveFolder, image3)));
 
         int result = pstmt.executeUpdate();
         if (result > 0) {
-        	out.println("<script>alert('책 등록이 성공적으로 완료되었습니다.'); location.href='../booksearch/booksearch.jsp';</script>");
-          
+            out.println("<script>alert('책 등록이 성공적으로 완료되었습니다.'); location.href='../booksearch/booksearch.jsp';</script>");
         } else {
-        	out.println("<script>alert('책 등록에 실패했습니다.'); location.href='../bookregister/bookregister.jsp';</script>");
-
+            out.println("<script>alert('책 등록에 실패했습니다.'); location.href='../bookregister/bookregister.jsp';</script>");
         }
 
     } catch (Exception e) {
@@ -148,4 +136,3 @@
         }
     }
 %>
-

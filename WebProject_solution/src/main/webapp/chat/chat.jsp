@@ -421,7 +421,7 @@ try {
 	<div class="sidebar-right">
 		<div class="sidebar-right-header">
 			<div class="header-logo">
-				<img src="../images/logo.png" alt="Logo"> CHAT
+				<img src="../images/sidebar3.png" alt="Logo"> CHAT
 			</div>
 			<div class="account">
 				<a href="../User/mypage.jsp"> <img src="../images/account.png"

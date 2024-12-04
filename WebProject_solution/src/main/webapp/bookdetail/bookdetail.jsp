@@ -272,10 +272,15 @@ try {
          
          
       </div>
-
+      
+      <%
+      int myBookId = 0;
+      %>
       <script>
     document.getElementById("bookDropdown").addEventListener("change", function () {
         var selectedBookId = this.value;
+        myBookId = selectedBookId;
+        document.getElementById("myBookId").value = selectedBookId;
 
         // Ajax를 통해 선택된 책 ID를 서버로 전송
         fetch("bookdetailAction.jsp?idBook=" + selectedBookId)
@@ -283,7 +288,7 @@ try {
             .then(data => {
                 // bookDetails 영역에 서버 응답 데이터 표시
                 document.getElementById("bookDetails").innerHTML = data;
-                document.getElementById("myBookId").value = selectedBookId;
+                myBookId = selectedBookId;
             })
             .catch(error => {
                 console.error("Error fetching book details:", error);
@@ -293,7 +298,6 @@ try {
 
          <!-- 버튼 변경 -->
 <%
-
     try {
         Class.forName("com.mysql.cj.jdbc.Driver");
         conn = DriverManager.getConnection(dbURL, dbUser, dbPass);
@@ -321,12 +325,15 @@ if (isBookRegistered) {
 		conn = DriverManager.getConnection(dbURL, dbUser, dbPass);
 
 		String sql = "SELECT roomId " + "FROM Chat " + "WHERE (myBookUserId = ? AND yourBookUserId = ?) "
-		+ "   OR (myBookUserId = ? AND yourBookUserId = ?)";
+		+ "   OR (myBookUserId = ? AND yourBookUserId = ?) and myBookId = ? and yourBookId = ?";
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setInt(1, user.getId()); // 첫 번째 조건의 myBookUserId
 		pstmt.setInt(2, yourBookUserId); // 첫 번째 조건의 yourBookUserId
 		pstmt.setInt(3, yourBookUserId); // 두 번째 조건의 myBookUserId
 		pstmt.setInt(4, user.getId()); // 두 번째 조건의 yourBookUserId
+		pstmt.setInt(5, myBookId);
+		pstmt.setInt(6, yourBookId);
+		
 		rs = pstmt.executeQuery();
 
 		if (rs.next()) {
@@ -356,13 +363,14 @@ if (isBookRegistered) {
 	out.println("<p>오류 발생: " + e.getMessage() + "</p>");
 		}
 	}
-	//여기까지가 방번호 설정하는 부분 db에선 roomId, 코드에서는 myChatNum
 %>
     <!-- 책이 등록되었을 때 "채팅하기" 버튼 표시 -->
           <div class="book-button">
          <form action="../chat/chat.jsp" method="POST">
             <input type="hidden" name="yourBookUserId" value="<%=yourBookUserId%>">
             <input type="hidden" name="roomId" value="<%=roomId%>">
+            <input type="hidden" name="myBookId" id="myBookId" value="<%=myBookId%>">
+            <input type="hidden" name="yourBookId" value="<%=yourBookId %>">
             <input class = "chat-button" type="submit" value="채팅하기">
          </form>
       </div>

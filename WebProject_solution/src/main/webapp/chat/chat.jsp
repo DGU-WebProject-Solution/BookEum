@@ -379,14 +379,14 @@ try {
 	e.printStackTrace();
 }
 %>
-			<div class="chat-messages">
+			<div class="chat-messages" id="chatMessages">
 				<%
 				for (Map<String, String> message : messages) {
 					String alignmentClass = message.get("myBookUserId").equals(String.valueOf(myId)) ? "right" : "left";
 				%>
 				<div class="message-<%=alignmentClass%>">
 					<div class="bubble">
-						<span class="message-text"><%=message.get("chatContent")%></span>
+						<span class="inchat-bubble-text"><%=message.get("chatContent")%></span>
 						<div class="message-time"><%=message.get("createdAt")%></div>
 					</div>
 				</div>
@@ -394,11 +394,33 @@ try {
 				}
 				%>
 			</div>
-			<script type="text/javascript">
-				const chatMessagesContainer = document.getElementById("main-content");
-				chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
-				setInterval(2000);
-			</script>
+	<script type="text/javascript">
+    	function refreshChat() {
+        	const chatMessagesContainer = document.getElementById("chatMessages");
+
+	        // 새로운 데이터를 포함한 JSP 전체를 다시 로드
+    	    fetch("chat.jsp?roomId=<%=roomId%>").then(response => {
+        	    if (response.ok) {
+            	    return response.text();
+	            } else {
+    	            console.error("Failed to fetch new messages");
+        	    }
+	        }).then(html => {
+    	        // JSP 응답 HTML 중 chatMessages만 갱신
+        	    const parser = new DOMParser();
+            	const doc = parser.parseFromString(html, "text/html");
+	            const newMessages = doc.getElementById("chatMessages").innerHTML;
+    	        chatMessagesContainer.innerHTML = newMessages;
+        	}).catch(error => {
+            	console.error("Error refreshing chat:", error);
+	        });
+    	}
+	
+	    const mainContent = document.getElementById("main-content");
+    	mainContent.scrollTop = mainContent.scrollHeight;
+    	setInterval(refreshChat, 500);
+	</script>
+
 
 			<div class="chat-input">
 				<form action="chat.jsp" method="POST" class="form-input"
@@ -506,7 +528,7 @@ int realYourId = myId;
 						<%=chat.get("myBookUserName")%>
 					</div>
 					<div class="message-details">
-						<div class="message-text"><%=chat.get("chatContent")%></div>
+						<div class="listchat-text"><%=chat.get("chatContent")%></div>
 						<div class="message-time"><%=chat.get("createdAt")%></div>
 					</div>
 				</button>

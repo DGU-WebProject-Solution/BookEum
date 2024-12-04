@@ -271,6 +271,7 @@ button .icon {
     display: flex;
     gap: 20px;
     padding-top: 20px;
+    flex-wrap: wrap;
 }
 
 .book-item {
@@ -285,8 +286,28 @@ button .icon {
     cursor: pointer;
 }
 
+
 .book-item p {
     margin-top: 10px;
     font-size: 16px;
     cursor: pointer;
+    color: black;
+}
+
+.book-title {
+	margin-top: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    color: black;
+}
+
+.empty-text {
+	width: 100%;
+	margin-top: 50px;
+	margin-bottom: 70px;
+	font-size: 20px;
+	justify-content: center;
+	align-items: center;
+	font-weight: bold;
+	text-align: center;
 }

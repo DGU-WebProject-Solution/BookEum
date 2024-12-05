@@ -350,3 +350,33 @@ h1.title-special {
     background-color: white;
     border-radius: 10px;
 }
+
+
+#genre {
+    appearance: none;
+    background-color: #f1e5c8;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    color: #4a4a4a;
+    cursor: pointer;
+    font-family: 'NanumBarunGothic', sans-serif;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    text-align-last: center;
+    position: relative;
+}
+
+#genre option {
+    text-align: left;
+}
+
+#genre::after {
+    content: '▼';
+    font-size: 12px;
+    color: #4a4a4a;
+    position: absolute;
+    right: 15px;
+    pointer-events: none;
+}
+

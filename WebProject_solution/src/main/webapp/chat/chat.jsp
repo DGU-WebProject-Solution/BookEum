@@ -437,9 +437,7 @@ try {
 			</div>
 		</div>
 	</div>
-
-
-	<!-- Right Sidebar -->
+<!-- Right Sidebar -->
 	<div class="sidebar-right">
 		<div class="sidebar-right-header">
 			<div class="header-logo">

@@ -299,7 +299,6 @@ body {
     border-radius: 10px;
     height: 100vh;
     overflow-y: auto;
-    transition: width 0.5s ease, opacity 0.1s ease;
     opacity: 1;
     margin-bottom:20px;
 }
@@ -450,6 +449,7 @@ body {
         width: 300px; /* 원하는 너비 설정 */
         opacity: 1;
         z-index: 120;
+        transition: width 0.5s ease, opacity 0.1s ease; /* 애니메이션 다시 활성화 */
     }
     
     .chat-header{
@@ -458,9 +458,9 @@ body {
     .chat-input {
     width : calc(100vw - 170px);
     }
-    .message-text {
-    max-width : 160px;
-}
+	.message-text {
+		max-width : 160px;
+	}
 }
 
 

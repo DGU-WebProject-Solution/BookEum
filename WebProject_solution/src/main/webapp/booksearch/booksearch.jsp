@@ -118,34 +118,40 @@
                     String sido = request.getParameter("sido");
                     String gungu = request.getParameter("gungu");
 
+                  
                     String sql = "SELECT b.idBook, b.image1, b.title, b.author, b.excPlace " +
                             "FROM Book b " +
                             "LEFT JOIN ExchangedBook eb ON b.idBook = eb.idBook " +
-                            "WHERE eb.idBook IS NULL "; // 교환된 책 제외
+                            "WHERE eb.idBook IS NULL"; // 교환된 책 제외
 
-                    List<Object> parameters = new ArrayList<>();
+               List<Object> parameters = new ArrayList<>();
 
-                    if (selectedGenreId != null && !selectedGenreId.isEmpty()) {
-                        sql += " AND b.genreId = ?";
-                        parameters.add(Integer.parseInt(selectedGenreId));
-                    }
-                    if (author != null && !author.isEmpty()) {
-                        sql += " AND b.author LIKE ?";
-                        parameters.add("%" + author + "%");
-                    }
-                    if (title != null && !title.isEmpty()) {
-                        sql += " AND b.title LIKE ?";
-                        parameters.add("%" + title + "%");
-                    }
-                    if (sido != null && !sido.isEmpty()) {
-                        sql += " AND b.excPlace LIKE ?";
-                        parameters.add("%" + sido + "%");
-                    }
-                    if (gungu != null && !gungu.isEmpty()) {
-                        sql += " AND b.excPlace LIKE ?";
-                        parameters.add("%" + gungu + "%");
-                    }
-                    sql += " ORDER BY b.idBook DESC"; // 최신 등록 순으로 정렬
+               if (user != null) {
+                   sql += " AND b.id != ?"; // 로그인한 사용자가 등록한 책 제외
+                   parameters.add(user.getId()); // 사용자의 ID를 추가
+               }
+
+               if (selectedGenreId != null && !selectedGenreId.isEmpty()) {
+                   sql += " AND b.genreId = ?";
+                   parameters.add(Integer.parseInt(selectedGenreId));
+               }
+               if (author != null && !author.isEmpty()) {
+                   sql += " AND b.author LIKE ?";
+                   parameters.add("%" + author + "%");
+               }
+               if (title != null && !title.isEmpty()) {
+                   sql += " AND b.title LIKE ?";
+                   parameters.add("%" + title + "%");
+               }
+               if (sido != null && !sido.isEmpty()) {
+                   sql += " AND b.excPlace LIKE ?";
+                   parameters.add("%" + sido + "%");
+               }
+               if (gungu != null && !gungu.isEmpty()) {
+                   sql += " AND b.excPlace LIKE ?";
+                   parameters.add("%" + gungu + "%");
+               }
+               sql += " ORDER BY b.idBook DESC"; // 최신 등록 순으로 정렬
                     
                     try {
                         Class.forName("com.mysql.cj.jdbc.Driver");

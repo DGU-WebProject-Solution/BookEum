@@ -151,7 +151,16 @@ body {
      overflow-y: auto;
 }
 
-
+.main-content::-webkit-scrollbar{
+	width: 8px;
+}
+.main-content::-webkit-scrollbar-thumb{
+	border-radius: 4px;
+	background: #E3DBC4;
+}
+.main-content::-webkit-scrollbar-track{
+	background: transparent;
+}
 
 
 .main-content img {
@@ -263,6 +272,16 @@ h1.title-special {
     padding: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
+}
+.sidebar-right::-webkit-scrollbar{
+	width: 8px;
+}
+.sidebar-right::-webkit-scrollbar-thumb{
+	border-radius: 4px;
+	background: #E3DBC4;
+}
+.sidebar-right::-webkit-scrollbar-track{
+	background: transparent;
 }
 
 .sidebar-right .account {

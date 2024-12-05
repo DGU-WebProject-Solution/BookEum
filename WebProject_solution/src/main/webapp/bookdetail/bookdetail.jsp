@@ -412,5 +412,21 @@ if (isBookRegistered) {
 
       </div>
    </div>
+   <script>
+    document.querySelector('.close-button').addEventListener('click', function (e) {
+        e.preventDefault(); // 기본 동작 방지
+        const popup = document.getElementById('popup');
+        popup.style.display = 'none'; // 팝업 숨기기
+
+        // 브라우저 히스토리에서 해시 제거
+        if (history.pushState) {
+            history.pushState("", document.title, window.location.pathname + window.location.search);
+        } else {
+            // pushState가 지원되지 않는 경우 해시 제거
+            window.location.hash = "";
+        }
+    });
+</script>
+   
 </body>
 </html>

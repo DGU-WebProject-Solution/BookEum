@@ -140,7 +140,7 @@ body {
     width: 1000px;
     padding: 20px;
     border-radius: 10px;
-    height: 100vh;
+    height: 110vh;
     font-family: 'NanumBarunGothic', sans-serif; /* NanumBarunGothic 폰트 기본 적용 */
 }
 /* profile & button */
@@ -310,4 +310,16 @@ button .icon {
 	align-items: center;
 	font-weight: bold;
 	text-align: center;
+}
+
+
+body::-webkit-scrollbar{
+	width: 8px;
+}
+body::-webkit-scrollbar-thumb{
+	border-radius: 4px;
+	background: #E3DBC4;
+}
+body::-webkit-scrollbar-track{
+	background: transparent;
 }

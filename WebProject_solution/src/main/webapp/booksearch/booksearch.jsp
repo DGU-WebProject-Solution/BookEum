@@ -1,100 +1,91 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.sql.*" %>
-<%@ page import="java.util.*" %>
-<%@ page import="java.io.*" %>
-<%@ page import="dao.model.userDAO" %>
-<%@ page import="dao.bean.Userbean" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*"%>
+<%@ page import="java.util.*"%>
+<%@ page import="java.io.*"%>
+<%@ page import="dao.model.userDAO"%>
+<%@ page import="dao.bean.Userbean"%>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Book Exchange</title>
-    <link rel="stylesheet" type="text/css" href="booksearch.css">
+<meta charset="UTF-8">
+<title>Book Exchange</title>
+<link rel="stylesheet" type="text/css" href="booksearch.css">
 </head>
 <body>
-    <%
+	<%
         session = request.getSession(false);
         Userbean user = (Userbean) session.getAttribute("user");
     %>
-    <div class="sidebar">
-        <a href="../main/main.jsp">
-            <img src="../images/logo.png" alt="Logo" class="logo">
-            <span>책이음</span>
-        </a>
-        <ul> 
-            <li>
-                <a href="../booksearch/booksearch.jsp">
-                    <img src="../images/sidebar1.png" alt="Search Icon">
-                    <span>책찾기</span>
-                </a>
-            </li>
-            <li>
-                <a href="../bookregister/bookregister.jsp">
-                    <img src="../images/sidebar2.png" alt="Register Icon">
-                    <span>책등록</span>
-                </a>
-            </li>
-            <li>
-                <a href="../chat/chat.jsp">
-                    <img src="../images/sidebar3.png" alt="Chat Icon">
-                    <span>채팅하기</span>
-                </a>
-            </li>
-        </ul>
-    </div>
+	<div class="sidebar">
+		<a href="../main/main.jsp"> <img src="../images/logo.png"
+			alt="Logo" class="logo"> <span>책이음</span>
+		</a>
+		<ul>
+			<li><a href="../booksearch/booksearch.jsp"> <img
+					src="../images/sidebar1.png" alt="Search Icon"> <span>책찾기</span>
+			</a></li>
+			<li><a href="../bookregister/bookregister.jsp"> <img
+					src="../images/sidebar2.png" alt="Register Icon"> <span>책등록</span>
+			</a></li>
+			<li><a href="../chat/chat.jsp"> <img
+					src="../images/sidebar3.png" alt="Chat Icon"> <span>채팅하기</span>
+			</a></li>
+		</ul>
+	</div>
 
-    <div class="main-wrapper">
-        <div class="account">
-            <% if (user != null) { %>
-                <a href="../User/mypage.jsp">
-                    <img src="../images/account.png" alt="Account Icon">
-                </a> ${user.name} 님 환영합니다
-            <% } else { %>
-                <img src="../images/account.png" alt="Account Icon">
-                <a href="../User/login.jsp" class="login-button">로그인하기</a>
-            <% } %>
-        </div>
-        
-        <div class="content-area">
-            <div class="filters">
-                <form method="GET" action="booksearch.jsp">
-                    <select name="genreId" class="filter-dropdown">
-                        <option value="">전체 장르</option>
-                        <option value="1" <%= "1".equals(request.getParameter("genreId")) ? "selected" : "" %>>소설</option>
-                        <option value="2" <%= "2".equals(request.getParameter("genreId")) ? "selected" : "" %>>자기개발</option>
-                        <option value="3" <%= "3".equals(request.getParameter("genreId")) ? "selected" : "" %>>에세이</option>
-                        <option value="4" <%= "4".equals(request.getParameter("genreId")) ? "selected" : "" %>>역사서</option>
-                        <option value="5" <%= "5".equals(request.getParameter("genreId")) ? "selected" : "" %>>과학서</option>
-                        <option value="6" <%= "6".equals(request.getParameter("genreId")) ? "selected" : "" %>>여행서</option>
-                        <option value="7" <%= "7".equals(request.getParameter("genreId")) ? "selected" : "" %>>아동도서</option>
-                        <option value="8" <%= "8".equals(request.getParameter("genreId")) ? "selected" : "" %>>자서전</option>
-                    </select>
-                    <input type="text" name="author" 
-       value="<%= request.getParameter("author") != null ? request.getParameter("author") : "" %>" 
-       class="filter-input" 
-       placeholder="저자명">
+	<div class="main-wrapper">
+		<div class="account">
+			<% if (user != null) { %>
+			<a href="../User/mypage.jsp"> <img src="../images/account.png"
+				alt="Account Icon">
+			</a> ${user.name} 님 환영합니다
+			<% } else { %>
+			<img src="../images/account.png" alt="Account Icon"> <a
+				href="../User/login.jsp" class="login-button">로그인하기</a>
+			<% } %>
+		</div>
 
-                    <input type="text" name="title" 
-       value="<%= request.getParameter("title") != null ? request.getParameter("title") : "" %>" 
-       class="filter-input" 
-       placeholder="제목">
+		<div class="content-area">
+			<div class="filters">
+				<form method="GET" action="booksearch.jsp">
+					<select name="genreId" class="filter-dropdown">
+						<option value="">전체 장르</option>
+						<option value="1"
+							<%= "1".equals(request.getParameter("genreId")) ? "selected" : "" %>>소설</option>
+						<option value="2"
+							<%= "2".equals(request.getParameter("genreId")) ? "selected" : "" %>>자기개발</option>
+						<option value="3"
+							<%= "3".equals(request.getParameter("genreId")) ? "selected" : "" %>>에세이</option>
+						<option value="4"
+							<%= "4".equals(request.getParameter("genreId")) ? "selected" : "" %>>역사서</option>
+						<option value="5"
+							<%= "5".equals(request.getParameter("genreId")) ? "selected" : "" %>>과학서</option>
+						<option value="6"
+							<%= "6".equals(request.getParameter("genreId")) ? "selected" : "" %>>여행서</option>
+						<option value="7"
+							<%= "7".equals(request.getParameter("genreId")) ? "selected" : "" %>>아동도서</option>
+						<option value="8"
+							<%= "8".equals(request.getParameter("genreId")) ? "selected" : "" %>>자서전</option>
+					</select> <input type="text" name="author"
+						value="<%= request.getParameter("author") != null ? request.getParameter("author") : "" %>"
+						class="filter-input" placeholder="저자명"> <input type="text"
+						name="title"
+						value="<%= request.getParameter("title") != null ? request.getParameter("title") : "" %>"
+						class="filter-input" placeholder="제목"> <input type="text"
+						name="addressCity"
+						value="<%= request.getParameter("addressCity") != null ? request.getParameter("addressCity") : "" %>"
+						class="filter-input" placeholder="시/도"> <input type="text"
+						name="addressGu"
+						value="<%= request.getParameter("addressGu") != null ? request.getParameter("addressGu") : "" %>"
+						class="filter-input" placeholder="구/군">
 
-<input type="text" name="addressCity" 
-       value="<%= request.getParameter("addressCity") != null ? request.getParameter("addressCity") : "" %>" 
-       class="filter-input" 
-       placeholder="시/도">
+					<button class="filter-button search-button">🔍</button>
+				</form>
+			</div>
 
-<input type="text" name="addressGu" 
-       value="<%= request.getParameter("addressGu") != null ? request.getParameter("addressGu") : "" %>" 
-       class="filter-input" 
-       placeholder="구/군">
-
-                    <button class="filter-button search-button">🔍</button>
-                </form>
-            </div>
-
-            <div class="book-grid">
-                <%
+			<div class="book-grid">
+				<%
                     Connection conn = null;
                     PreparedStatement pstmt = null;
                     ResultSet rs = null;
@@ -119,7 +110,7 @@
                     String gungu = request.getParameter("gungu");
 
                   
-                    String sql = "SELECT b.idBook, b.image1, b.title, b.author, b.excPlace " +
+               String sql = "SELECT b.idBook, b.image1, b.title, b.author, b.excPlace " +
                             "FROM Book b " +
                             "LEFT JOIN ExchangedBook eb ON b.idBook = eb.idBook " +
                             "WHERE eb.idBook IS NULL"; // 교환된 책 제외
@@ -166,10 +157,10 @@
 
                         if (!rs.isBeforeFirst()) { // 데이터가 없을 때
                 %>
-                            <script>
+				<script>
                                 showAlertAndRedirect("검색 결과가 없습니다.", "booksearch.jsp");
                             </script>
-                <%
+				<%
                         }
 
                         while (rs.next()) {
@@ -195,20 +186,20 @@
                             }
                 %>
 
-                        <a href="<%= (user != null) ? "../bookdetail/bookdetail.jsp?idBook=" + bookId : "#" %>" class="book-card" 
-                            <% if (user == null) { %> 
-                                onclick="showLoginAlert(event);" 
-                            <% } %>>
-                            
-                            <img src="data:image/jpeg;base64,<%= base64Image != null ? base64Image : "" %>" alt="Book Image">
-                            <div class="book-info">
-                                <h3><%= bookTitle %></h3>
-                                <p><%= bookAuthor %></p>
-                                <p><%= excPlace %></p>
-                            </div>
-                        </a>
-                        
-                <%
+				<a
+					href="<%= (user != null) ? "../bookdetail/bookdetail.jsp?idBook=" + bookId : "#" %>"
+					class="book-card" <% if (user == null) { %>
+					onclick="showLoginAlert(event);" <% } %>> <img
+					src="data:image/jpeg;base64,<%= base64Image != null ? base64Image : "" %>"
+					alt="Book Image">
+					<div class="book-info">
+						<h3><%= bookTitle %></h3>
+						<p><%= bookAuthor %></p>
+						<p><%= excPlace %></p>
+					</div>
+				</a>
+
+				<%
                         }
                     } catch (Exception e) {
                         out.println("<p>데이터베이스 오류: " + e.getMessage() + "</p>");
@@ -222,11 +213,11 @@
                         }
                     }
                 %>
-            </div>
-        </div>
-    </div>
+			</div>
+		</div>
+	</div>
 
-    <script>
+	<script>
         function showAlertAndRedirect(message, redirectUrl) {
             alert(message);
             window.location.href = redirectUrl;

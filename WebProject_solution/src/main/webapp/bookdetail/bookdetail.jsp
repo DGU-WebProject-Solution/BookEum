@@ -196,38 +196,45 @@ try {
       <div class="my-book">
          <div class="dropdown-wrapper">
             <h2>내가 교환할 책</h2>
-            <select id="bookDropdown" class="dropdown">
-               <option value="" disabled selected>▼</option>
-               <%  
-                try {
-                    Class.forName("com.mysql.cj.jdbc.Driver");
-                    conn = DriverManager.getConnection(dbURL, dbUser, dbPass);
+           <select id="bookDropdown" class="dropdown">
+                    <option value="" disabled selected>▼</option>
+                    <%  
+                    try {
+                        Class.forName("com.mysql.cj.jdbc.Driver");
+                        conn = DriverManager.getConnection(dbURL, dbUser, dbPass);
 
-                    String sql = "SELECT idBook, title FROM Book WHERE id = ?";
-                    pstmt = conn.prepareStatement(sql);
-                    pstmt.setInt(1, user.getId());
-                    rs = pstmt.executeQuery();
+                        String bookQuery = "SELECT idBook, title FROM Book WHERE id = ? AND idBook NOT IN (SELECT idBook FROM ExchangedBook)";
+                        pstmt = conn.prepareStatement(bookQuery);
+                        pstmt.setInt(1, user.getId()); // 로그인한 사용자 ID
+                        rs = pstmt.executeQuery();
 
-                    if (!rs.next()) {
-                        // 등록된 책이 없을 때 메시지 표시
-                        out.println("<option value='' disabled>등록된 책이 없습니다</option>");
-                    } else {
-                        // 등록된 책이 있을 경우 책 제목 표시
-                        while (rs.next()) {
-                            int idBook = rs.getInt("idBook");
-                            String bookTitle = rs.getString("title");
-            %>
-               <option value="<%= idBook %>"><%= bookTitle %></option>
-               <%
+                        if (!rs.isBeforeFirst()) {
+                            // 등록된 책이 없을 때 메시지 표시
+                            out.println("<option value='' disabled>등록된 책이 없습니다</option>");
+                        } else {
+                            // 등록된 책이 있을 경우 책 제목 표시
+                            while (rs.next()) {
+                                int idBook = rs.getInt("idBook");
+                                String bookTitle = rs.getString("title");
+                    %>
+                    <option value="<%= idBook %>"><%= bookTitle %></option>
+                    <%
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        out.println("<p>오류 발생: " + e.getMessage() + "</p>");
+                    } finally {
+                        try {
+                            if (rs != null) rs.close();
+                            if (pstmt != null) pstmt.close();
+                            if (conn != null) conn.close();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
                         }
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    try { if (rs != null) rs.close(); if (pstmt != null) pstmt.close(); if (conn != null) conn.close(); } catch (SQLException e) { e.printStackTrace(); }
-                }
-               %>
-            </select>
+                    %>
+                </select>
          </div>
 
          

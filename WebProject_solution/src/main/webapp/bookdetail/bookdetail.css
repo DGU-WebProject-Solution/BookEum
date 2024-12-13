@@ -349,7 +349,8 @@ h1.title-special {
    font-size: 24px;
     font-weight: bold;
     color: #4a4a4a;
-   margin-top:40px
+   margin-top:40px;
+   white-space: nowrap; 
 }
 
 .my-book h2,

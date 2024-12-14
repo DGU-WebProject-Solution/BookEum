@@ -117,21 +117,20 @@ request.setCharacterEncoding("utf-8");
 		e.printStackTrace();
 	} 
 	
-	peopleCnt++;
-	avgRate = (avgRate * peopleCnt + newRate) / peopleCnt;
+	avgRate = (avgRate * peopleCnt + newRate) / (peopleCnt + 1);
 	
 	try {
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		conn = DriverManager.getConnection(dbURL, dbUser, dbPass);
 
-		String sql = "UPDATE User " + "SET avgRate = ?, " + "    newRate = ?, " + "    peopleCnt = ? "
+		String sql = "UPDATE User SET avgRate = ?, newRate = ?, peopleCnt = ? "
 		+ "WHERE id = ?"; 
 		pstmt = conn.prepareStatement(sql);
 
 		// 파라미터 바인딩
 		pstmt.setDouble(1, avgRate);
 		pstmt.setInt(2, newRate);
-		pstmt.setInt(3, peopleCnt);
+		pstmt.setInt(3, ++peopleCnt);
 		pstmt.setInt(4, yourBookUserId);
 
 		// 데이터베이스에 저장

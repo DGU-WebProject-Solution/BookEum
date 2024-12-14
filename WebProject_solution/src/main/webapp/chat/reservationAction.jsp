@@ -15,7 +15,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-
 <%
 	request.setCharacterEncoding("utf-8");
 	int yourBookUserId = Integer.parseInt(request.getParameter("yourBookUserId"));
@@ -49,12 +48,11 @@
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		conn = DriverManager.getConnection(dbURL, dbUser, dbPass);
 		
-		String sql = "INSERT INTO Reservation (date, time, roomId) "
-				+ "VALUES (?, ?, ?)";
+		String sql = "INSERT INTO Reservation (date, time, roomId) VALUES (?, ?, ?)";
 		pstmt = conn.prepareStatement(sql);
 		
-	    java.sql.Date sqlDate = java.sql.Date.valueOf(date); // LocalDate 사용하지 않음
-	    java.sql.Time sqlTime = java.sql.Time.valueOf(time + ":00"); // 초를 추가
+	    Date sqlDate = Date.valueOf(date); // LocalDate 사용하지 않음
+	    Time sqlTime = Time.valueOf(time + ":00"); // 초를 추가
 		
 		// 파라미터 바인딩
 		pstmt.setDate(1, sqlDate);
@@ -81,9 +79,7 @@
 			e.printStackTrace();
 		}
 	}
-	
 %>
-</body>
 	<form id="redirectForm" action="chat.jsp" method="POST">
         <!-- Hidden Inputs -->
         <input type="hidden" name="yourBookUserId" value="<%=yourBookUserId%>">
@@ -95,4 +91,5 @@
         // 폼 자동 제출
         document.getElementById("redirectForm").submit();
     </script>
+</body>
 </html>

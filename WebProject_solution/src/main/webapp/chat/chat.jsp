@@ -293,12 +293,7 @@ async function handleFormSubmit(event) {
 		<div class="main-content" id="main-content">
 			<div class="chat-header">
 				<span class="chat-title"><%=yourName %>
-				<%
-				if (yourBookTitle != "") {
-					out.print("/");
-				}
-				%>
-				<%=yourBookTitle %></span>
+				</span>
 				<div class="chat-buttons">
 					<button class="chat-btn open-sidebar" onclick="toggleSidebar()">채팅
 						목록 보기</button>
@@ -550,7 +545,7 @@ int realYourId = myId;
 				if(reservationCnt == 0) {
 				%>
 				<form method="POST" action="reservationAction.jsp">
-					<input type="hidden" name="yourBookUserId" value="<%=realYourId %>">
+					<input type="hidden" name="yourBookUserId" value="<%=yourBookUserId %>">
 					<input type="hidden" name="roomId" value="<%=roomId %>">
 					<input type="hidden"name="myBookId" value="<%=myBookId %>">
 					<input type="hidden" name="yourBookId" value="<%=yourBookId %>">
@@ -630,7 +625,7 @@ int realYourId = myId;
 					<span class="star" onclick="setRating(4)">★</span>
 					<span class="star" onclick="setRating(5)">★</span>
 				</div>
-				<input type="hidden" name="yourBookUserId" value="<%=realYourId %>">
+				<input type="hidden" name="yourBookUserId" value="<%=yourBookUserId %>">
 				<input type="hidden" name="roomId" value="<%=roomId %>">
 				<input type="hidden"name="myBookId" value="<%=myBookId %>">
 				<input type="hidden" name="yourBookId" value="<%=yourBookId %>">

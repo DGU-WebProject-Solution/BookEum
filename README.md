@@ -18,14 +18,12 @@
 <img width="1094" alt="image" src="https://github.com/user-attachments/assets/4c38a71c-eb1d-489b-bfc9-d7135ef4ff87" />
 
 ## 구현 결과물
-| | |
-| --- | --- |
-| ![image](https://github.com/user-attachments/assets/9ac58d7e-c4a0-414a-bb4c-cb297ef1352f) | ![image (1)](https://github.com/user-attachments/assets/d4035bd0-932d-47d5-a7e3-b43e4389b198)
-| 메인 페이지 | 책 찾기 페이지 |
-| ![image (2)](https://github.com/user-attachments/assets/90d3078a-df58-4305-923f-01b59047c0aa) | ![image (3)](https://github.com/user-attachments/assets/ecb3cf12-c3cd-4c0a-9e67-f2abd36f784f) |
-| 책 상세 페이지 | 채팅 페이지 |
-|![image (4)](https://github.com/user-attachments/assets/cddee75a-e5de-4dce-be68-fa563915b13e) | ![image (5)](https://github.com/user-attachments/assets/4edb3549-c97b-46d2-8867-b0212adbd5a7) |
-| 마이 페이지 | 책 등록 페이지 |
-|<img width="1920" height="1030" alt="image (3)" src="https://github.com/user-attachments/assets/66785134-65ff-4699-b386-7c1c8e74fa32" /> | <img width="1920" height="1030" alt="image (4)" src="https://github.com/user-attachments/assets/ef72024e-eeda-4af8-a3ad-4aec9780da40" /> |
+| 메인 페이지 | 책 찾기 페이지 | 책 상세 페이지 | 
+| --- | --- | --- | 
+| ![image](https://github.com/user-attachments/assets/9ac58d7e-c4a0-414a-bb4c-cb297ef1352f) | ![image (1)](https://github.com/user-attachments/assets/d4035bd0-932d-47d5-a7e3-b43e4389b198) | ![image (2)](https://github.com/user-attachments/assets/90d3078a-df58-4305-923f-01b59047c0aa) |
+
+| 채팅 페이지 | 마이 페이지 | 책 등록 페이지 |
+| --- | --- | --- |
+| ![image (3)](https://github.com/user-attachments/assets/ecb3cf12-c3cd-4c0a-9e67-f2abd36f784f) |![image (4)](https://github.com/user-attachments/assets/cddee75a-e5de-4dce-be68-fa563915b13e) | ![image (5)](https://github.com/user-attachments/assets/4edb3549-c97b-46d2-8867-b0212adbd5a7) |
 
 

@@ -6,11 +6,11 @@
 
 ## 👩솔루션 팀
 동국대학교 컴퓨터공학과 웹프로그래밍
-| 이름                                         | 전공           | Email                |
-| -------------------------------------------- | --------------  | -------------------- |
-| 이수민 | 컴퓨터공학전공      | 2021111934@dgu.ac.kr |
-| 김도현 | 컴퓨터공학전공      | 2021111981@dgu.ac.kr |
-| 김해솔 | 컴퓨터공학전공      | ilwhs31@gmail.com |
+| 이름 | 전공 | Email | 역할 | 
+| --- | ---  | --- | --- |
+| 이수민 | 컴퓨터공학전공      | 2021111934@dgu.ac.kr | 팀장, Backend, Frontend |
+| 김도현 | 컴퓨터공학전공      | 2021111981@dgu.ac.kr | Backend, Frontend |
+| 김해솔 | 컴퓨터공학전공      | ilwhs31@gmail.com | Backend, Frontend, Infra |
 
 <br><br>
 
@@ -26,5 +26,6 @@
 | 책 상세 페이지 | 채팅 페이지 |
 |![image (4)](https://github.com/user-attachments/assets/cddee75a-e5de-4dce-be68-fa563915b13e) | ![image (5)](https://github.com/user-attachments/assets/4edb3549-c97b-46d2-8867-b0212adbd5a7) |
 | 마이 페이지 | 책 등록 페이지 |
+|<img width="1920" height="1030" alt="image (3)" src="https://github.com/user-attachments/assets/66785134-65ff-4699-b386-7c1c8e74fa32" /> | <img width="1920" height="1030" alt="image (4)" src="https://github.com/user-attachments/assets/ef72024e-eeda-4af8-a3ad-4aec9780da40" /> |
 
 

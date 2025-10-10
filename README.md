@@ -11,8 +11,8 @@
 | 이름 | 전공 | Email | 역할 | 
 | --- | ---  | --- | --- |
 | 이수민 | 컴퓨터공학전공      | 2021111934@dgu.ac.kr | 팀장, Backend, Frontend |
-| 김도현 | 컴퓨터공학전공      | 2021111981@dgu.ac.kr | Backend, Frontend |
-| 김해솔 | 컴퓨터공학전공      | ilwhs31@gmail.com | Backend, Frontend, Infra |
+| 김도현 | 컴퓨터공학전공      | 2021111981@dgu.ac.kr | Backend, Frontend, Infra |
+| 김해솔 | 컴퓨터공학전공      | ilwhs31@gmail.com | Backend, Frontend |
 
 <br><br>
 

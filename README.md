@@ -1,8 +1,10 @@
 ![header](https://capsule-render.vercel.app/api?type=waving&color=gradient&height=300&section=header&text=책이음&fontSize=80&desc=Book%20Share%20Community&descAlignY=75&fontColor=645A5A)
 <br>
 ## 📚프로젝트명
-도서 교환 커뮤니티, 책이음
-<br><br>
+도서 교환 커뮤니티, 책이음<br>
+[🔗 시연영상 보러가기](https://youtu.be/uAaTI_Gu0I8)
+
+<br>
 
 ## 👩솔루션 팀
 동국대학교 컴퓨터공학과 웹프로그래밍
